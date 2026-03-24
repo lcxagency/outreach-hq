@@ -83,14 +83,14 @@
 <body>
 <nav class="nav">
   <div class="nav-logo">OUTREACH HQ</div>
-  <button class="nav-btn active" onclick="show('team')">Team</button>
-  <button class="nav-btn" onclick="show('routine')">Routine</button>
-  <button class="nav-btn" onclick="show('messages')">Messages</button>
-  <button class="nav-btn" onclick="show('relances')" id="nav-relances">Relances <span id="relance-badge"></span></button>
-  <button class="nav-btn" onclick="show('sheet')">Sheet</button>
-  <button class="nav-btn" onclick="show('rules')">Deal</button>
+  <button class="nav-btn active" onclick="show('team',this)">Team</button>
+  <button class="nav-btn" onclick="show('routine',this)">Routine</button>
+  <button class="nav-btn" onclick="show('messages',this)">Messages</button>
+  <button class="nav-btn" onclick="show('relances',this)" id="nav-relances">Relances <span id="relance-badge"></span></button>
+  <button class="nav-btn" onclick="show('sheet',this)">Sheet</button>
+  <button class="nav-btn" onclick="show('rules',this)">Deal</button>
   <div class="nav-divider"></div>
-  <button class="nav-btn manager-btn" onclick="show('manager')">Manager</button>
+  <button class="nav-btn manager-btn" onclick="show('manager',this)">Manager</button>
 </nav>
 <div class="container">
 
@@ -102,8 +102,8 @@
     <table>
       <tr><th>Personne</th><th>Comptes g&#233;r&#233;s</th><th>Type</th><th>Quota DM/jour</th></tr>
       <tr><td><strong>Pharrell</strong></td><td>titouanhstl</td><td><span class="badge badge-blue">Manager</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
-      <tr><td><strong>Sasha</strong></td><td>rachelwiliii</td><td><span class="badge badge-purple">Assistant (fille)</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
-      <tr><td><strong>Keda (Backup)</strong></td><td>titouansfd, titouanwyr, elleoriwe, saybossie</td><td><span class="badge badge-orange">Backup</span></td><td><span class="badge badge-green">40+</span></td></tr>
+      <tr><td><strong>Sasha</strong></td><td>iamcollinsahsley, leacdf</td><td><span class="badge badge-purple">Assistant (fille)</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
+      <tr><td><strong>Keda (Backup)</strong></td><td>titouansfd, titouanwyr, ellaoriwe</td><td><span class="badge badge-orange">Backup</span></td><td><span class="badge badge-green">40+</span></td></tr>
     </table>
   </div>
   <div class="card">
@@ -283,11 +283,11 @@ Sheet &#224; jour : &#10003;</div>
 
 <script>
 // NAV
-function show(id){
+function show(id,btn){
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active')});
   document.getElementById(id).classList.add('active');
-  event.target.closest('.nav-btn').classList.add('active');
+  if(btn)btn.closest('.nav-btn').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='relances'&&!window._rL){window._rL=1;scanRelances();}
   if(id==='manager'&&!window._mL){window._mL=1;fetchAllSheets();}
@@ -304,9 +304,11 @@ function copyText(id,btn){
 var SID='1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
 var ACCS=[
   {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl (mgmt pharrell)'},
-  {person:'Sasha',account:'rachelwiliii',sheet:'rachelwiliii (mgmt sasha)'},
+  {person:'Sasha',account:'iamcollinsahsley',sheet:'iamcollinsahsley (mgmt esteban)'},
+  {person:'Sasha',account:'leacdf',sheet:'leacdf (mgmt titouan)'},
   {person:'Keda',account:'titouansfd',sheet:'titouansfd (mgmt titouan)'},
-  {person:'Keda',account:'leacdf',sheet:'leacdf (mgmt titouan)'}
+  {person:'Keda',account:'titouanwyr',sheet:'titouanwyr'},
+  {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe'}
 ];
 
 function pgviz(t){var m=t.match(/setResponse\((.+)\);?\s*$/s);if(!m)return null;try{return JSON.parse(m[1])}catch(e){return null}}
@@ -326,6 +328,7 @@ async function fetchTab(sheet){
     return(d&&d.table)?d.table:null;
   }catch(e){return null}
 }
+
 function detectCols(cols){
   var m={date:-1,user:-1,status:-1};
   cols.forEach(function(c,i){
@@ -335,7 +338,7 @@ function detectCols(cols){
     if(/statu[st]|state|action|r[eÃ©]ponse|response|replied|suivi/.test(l))m.status=i;
   });
   if(m.date===-1)m.date=0;
-  if(m.user===-1&&cols.length>=3+m.user=1;
+  if(m.user===-1&&cols.length>=3)m.user=1;
   if(m.status===-1&&cols.length>=4)m.status=3;
   return m;
 }
@@ -390,7 +393,7 @@ async function scanRelances(){
   document.getElementById('relance-time').textContent='Scan : '+time;
 }
 
-function rHist(cid,leads,dot){
+function rList(cid,leads,dot){
   var c=document.getElementById(cid);
   if(!leads.length){c.innerHTML='<div class="card" style="text-align:center;color:#475569;padding:20px">Aucune &#10003;</div>';return;}
   c.innerHTML=leads.map(function(l){
