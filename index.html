@@ -50,7 +50,7 @@
   .checklist li .ck{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .2s}
   .checklist li.done{opacity:.35;text-decoration:line-through}
   .checklist li.done .ck{background:#22c55e;border-color:#22c55e}
-  .checklist li.done .ck::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+  .checklist li.done .ck::after{content:'â';color:#fff;font-size:11px;font-weight:700}
   .template-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.7;color:#94a3b8;white-space:pre-line;margin:10px 0}
   .copy-btn{background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s}
   .copy-btn:hover{background:rgba(96,165,250,0.2)}
@@ -101,9 +101,9 @@
   <div class="card">
     <table>
       <tr><th>Personne</th><th>Comptes g&#233;r&#233;s</th><th>Type</th><th>Quota DM/jour</th></tr>
-      <tr><td><strong>Pharrell</strong></td><td>titouanhstl, titouansfd</td><td><span class="badge badge-blue">Manager</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
-      <tr><td><strong>Sasha</strong></td><td>iamcollinsashley, saybossie / leacdf</td><td><span class="badge badge-purple">Assistant (fille)</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
-      <tr><td><strong>Backup</strong></td><td><em>Variable</em></td><td><span class="badge" style="background:rgba(148,163,184,0.1);color:#94a3b8">Flexible</span></td><td><span class="badge badge-green">40+</span></td></tr>
+      <tr><td><strong>Pharrell</strong></td><td>titouanhstl</td><td><span class="badge badge-blue">Manager</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
+      <tr><td><strong>Sasha</strong></td><td>rachelwiliii</td><td><span class="badge badge-purple">Assistant (fille)</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
+      <tr><td><strong>Keda (Backup)</strong></td><td>titouansfd, titouanwyr, elleoriwe, saybossie</td><td><span class="badge badge-orange">Backup</span></td><td><span class="badge badge-green">40+</span></td></tr>
     </table>
   </div>
   <div class="card">
@@ -248,7 +248,8 @@ Sheet &#224; jour : &#10003;</div>
     <div class="kpi-card"><div class="kpi-label">Pharrell &#8212; DM</div><div class="kpi-value" id="kpi-pharrell-dm">&#8212;</div><div class="kpi-target" id="kpi-pharrell-avg">...</div></div>
     <div class="kpi-card"><div class="kpi-label">Pharrell &#8212; R&#233;ponses</div><div class="kpi-value" id="kpi-pharrell-rep">&#8212;</div><div class="kpi-target" id="kpi-pharrell-taux">&#8212;</div></div>
     <div class="kpi-card"><div class="kpi-label">Sasha &#8212; DM</div><div class="kpi-value" id="kpi-sasha-dm">&#8212;</div><div class="kpi-target" id="kpi-sasha-avg">...</div></div>
-    <div class="kpi-card"><div class="kpi-label">Sasha &#8212; R&#233;ponses</div><div class="kpi-value" id="kpi-sasha-rep">&#8212;</div><div class="kpi-target" id="kpi-sasha-taux">&#8212;</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda (Backup) &#8212; DM</div><div class="kpi-value" id="kpi-keda-dm">&#8212;</div><div class="kpi-target" id="kpi-keda-avg">...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda &#8212; R&#233;ponses</div><div class="kpi-value" id="kpi-keda-rep">&#8212;</div><div class="kpi-target" id="kpi-keda-taux">&#8212;</div></div>
   </div>
   <h2>D&#233;tail par compte</h2>
   <div class="card"><table><thead><tr><th>Personne</th><th>Compte</th><th>DM</th><th>R&#233;p.</th><th>Taux</th><th>Moy/j</th><th>Status</th></tr></thead><tbody id="detail-body"><tr><td colspan="7" style="text-align:center;color:#475569;padding:20px"><span class="spinner"></span></td></tr></tbody></table></div>
@@ -258,6 +259,7 @@ Sheet &#224; jour : &#10003;</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Pharrell mois</div><div class="kpi-value" id="kpi-pharrell-month">&#8212;</div><div class="kpi-target" id="kpi-pharrell-month-rep">&#8212;</div></div>
     <div class="kpi-card"><div class="kpi-label">Sasha mois</div><div class="kpi-value" id="kpi-sasha-month">&#8212;</div><div class="kpi-target" id="kpi-sasha-month-rep">&#8212;</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda mois</div><div class="kpi-value" id="kpi-keda-month">&#8212;</div><div class="kpi-target" id="kpi-keda-month-rep">&#8212;</div></div>
     <div class="kpi-card"><div class="kpi-label">Total equipe</div><div class="kpi-value" id="kpi-total-month">&#8212;</div><div class="kpi-target" id="kpi-total-month-info">&#8212;</div></div>
     <div class="kpi-card"><div class="kpi-label">Taux global</div><div class="kpi-value" id="kpi-global-taux">&#8212;</div><div class="kpi-target">objectif &gt; 5%</div></div>
   </div>
@@ -301,9 +303,10 @@ function copyText(id,btn){
 // SHEET CONFIG
 var SID='1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
 var ACCS=[
-  {person:'Pharrell',account:'titouanhstl',gid:0},
-  {person:'Pharrell',account:'titouansfd',gid:835874806},
-  {person:'Sasha',account:'rachelwiliii',gid:2089642466}
+  {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl (mgmt pharrell)'},
+  {person:'Sasha',account:'rachelwiliii',sheet:'rachelwiliii (mgmt sasha)'},
+  {person:'Keda',account:'titouansfd',sheet:'titouansfd (mgmt titouan)'},
+  {person:'Keda',account:'leacdf',sheet:'leacdf (mgmt titouan)'}
 ];
 
 function pgviz(t){var m=t.match(/setResponse\((.+)\);?\s*$/s);if(!m)return null;try{return JSON.parse(m[1])}catch(e){return null}}
@@ -316,31 +319,30 @@ function pdate(v){
 function cv(c){return c&&c.v!=null?c.v:null}
 function ct(c){return c?(c.f||(c.v!=null?String(c.v):'')):''}
 
-async function fetchTab(gid){
+async function fetchTab(sheet){
   try{
-    var r=await fetch('https://docs.google.com/spreadsheets/d/'+SID+'/gviz/tq?tqx=out:json&gid='+gid);
+    var r=await fetch('https://docs.google.com/spreadsheets/d/'+SID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(sheet));
     var t=await r.text();var d=pgviz(t);
     return(d&&d.table)?d.table:null;
   }catch(e){return null}
 }
-
 function detectCols(cols){
   var m={date:-1,user:-1,status:-1};
   cols.forEach(function(c,i){
     var l=(c.label||'').toLowerCase();
     if(c.type==='datetime'||c.type==='date'||/timestamp|date|horodateur/.test(l))m.date=i;
-    if(/username|@|pseudo|user|mod[eè]le|insta|ig|nom/.test(l))m.user=i;
-    if(/statu[st]|state|action|r[eé]ponse|response|replied|suivi/.test(l))m.status=i;
+    if(/username|@|pseudo|user|mod[eÃ¨]le|insta|ig|nom/.test(l))m.user=i;
+    if(/statu[st]|state|action|r[eÃ©]ponse|response|replied|suivi/.test(l))m.status=i;
   });
   if(m.date===-1)m.date=0;
-  if(m.user===-1&&cols.length>=3)m.user=1;
+  if(m.user===-1&&cols.length>=3+m.user=1;
   if(m.status===-1&&cols.length>=4)m.status=3;
   return m;
 }
 
 function isRep(s){
   if(!s)return false;
-  return /r[eé]pondu|replied|int[eé]ress|r[eé]ponse|yes|oui|engag/i.test(s);
+  return /r[eÃ©]pondu|replied|int[eÃ©]ress|r[eÃ©]ponse|yes|oui|engag/i.test(s);
 }
 
 // === AUTO RELANCE ===
@@ -348,7 +350,7 @@ async function scanRelances(){
   document.getElementById('relance-status').innerHTML='<span class="spinner"></span>Scan de la sheet...';
   var leads=[];
   for(var i=0;i<ACCS.length;i++){
-    var a=ACCS[i],tab=await fetchTab(a.gid);
+    var a=ACCS[i],tab=await fetchTab(a.sheet);
     if(!tab||!tab.cols||!tab.rows)continue;
     var cm=detectCols(tab.cols);
     tab.rows.forEach(function(row){
@@ -384,11 +386,11 @@ async function scanRelances(){
   var time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('relance-status').innerHTML=leads.length>0
     ?'&#128994; '+leads.length+' modeles avec reponse detectees'
-    :'&#128308; Aucune donnee trouvee (verifiez que la sheet est partagee)';
+    :'&#128308; Aucune donnee trouvee (la sheet doit etre partagee en Lecture via Lien)';
   document.getElementById('relance-time').textContent='Scan : '+time;
 }
 
-function rList(cid,leads,dot){
+function rHist(cid,leads,dot){
   var c=document.getElementById(cid);
   if(!leads.length){c.innerHTML='<div class="card" style="text-align:center;color:#475569;padding:20px">Aucune &#10003;</div>';return;}
   c.innerHTML=leads.map(function(l){
@@ -404,8 +406,8 @@ setInterval(function(){scanRelances()},300000);
 function weekR(){var n=new Date(),d=n.getDay(),m=new Date(n);m.setDate(n.getDate()-(d===0?6:d-1));m.setHours(0,0,0,0);var s=new Date(m);s.setDate(m.getDate()+6);s.setHours(23,59,59,999);return{m:m,s:s}}
 function monthR(){var n=new Date();return{f:new Date(n.getFullYear(),n.getMonth(),1),l:new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59,999)}}
 
-async function fetchAgg(gid){
-  var tab=await fetchTab(gid);if(!tab||!tab.rows)return[];
+async function fetchAgg(sheet){
+  var tab=await fetchTab(sheet);if(!tab||!tab.rows)return[];
   var cm=detectCols(tab.cols),rows=[];
   tab.rows.forEach(function(row){
     var cells=row.c||[],dc=cells[cm.date],date=dc?pdate(cv(dc)):null;
@@ -420,7 +422,7 @@ async function fetchAllSheets(){
   document.getElementById('live-status').innerHTML='<span class="spinner"></span>Chargement...';
   var wr=weekR(),mr=monthR(),res=[];
   for(var i=0;i<ACCS.length;i++){
-    var a=ACCS[i],rows=await fetchAgg(a.gid);
+    var a=ACCS[i],rows=await fetchAgg(a.sheet);
     var wD=0,wR=0,mD=0,mR=0,dd=[];
     rows.forEach(function(r){
       if(r.date>=wr.m&&r.date<=wr.s){wD+=r.dm;wR+=r.rep;dd.push(r)}
@@ -430,23 +432,29 @@ async function fetchAllSheets(){
   }
   var ph=res.filter(function(a){return a.person==='Pharrell'});
   var sa=res.filter(function(a){return a.person==='Sasha'});
+  var ke=res.filter(function(a){return a.person==='Keda'});
   var pW=ph.reduce(function(s,a){return s+a.wD},0),pR=ph.reduce(function(s,a){return s+a.wR},0);
   var sW=sa.reduce(function(s,a){return s+a.wD},0),sR=sa.reduce(function(s,a){return s+a.wR},0);
+  var kW=ke.reduce(function(s,a){return s+a.wD},0),kR=ke.reduce(function(s,a){return s+a.wR},0);
   var pM=ph.reduce(function(s,a){return s+a.mD},0),pMR=ph.reduce(function(s,a){return s+a.mR},0);
   var sM=sa.reduce(function(s,a){return s+a.mD},0),sMR=sa.reduce(function(s,a){return s+a.mR},0);
+  var kM=ke.reduce(function(s,a){return s+a.mD},0),kMR=ke.reduce(function(s,a){return s+a.mR},0);
   var diw=Math.min(7,Math.floor((new Date()-wr.m)/864e5)+1);
   function sk(id,v,c){var e=document.getElementById(id);if(e){e.textContent=v;if(c)e.style.color=c}}
   sk('kpi-pharrell-dm',pW,pW>=diw*80?'#22c55e':pW>0?'#f97316':'#ef4444');
   sk('kpi-pharrell-rep',pR);sk('kpi-pharrell-avg','moy '+(diw>0?Math.round(pW/diw):0)+'/j');
   var pt=pW>0?((pR/pW)*100).toFixed(1):'0';sk('kpi-pharrell-taux',pt+'%',+pt>=5?'#22c55e':+pt>=3?'#f97316':'#ef4444');
-  sk('kpi-sasha-dm',sW,sW>=diw*80?'#22c55e':sW>0?'#f97316':'#ef4444');
-  sk('kpi-sasha-rep',sR);sk('kpi-sasha-avg','moy '+(diw>0?Math.round(sW/diw):0)+'/j');
-  var st2=sW>0?((sR/sW)*100).toFixed(1):'0';sk('kpi-sasha-taux',st2+'%',+st2>=5?'#22c55e':+st2>=3?'#f97316':'#ef4444');
+  sk('kpi-sasha-dm',sW,sW>=diw*40?'#22c55e':sW>0?'#f97316':'#ef4444');
+  sk('kpi-sasha-avg','moy '+(diw>0?Math.round(sW/diw):0)+'/j');
+  sk('kpi-keda-dm',kW,kW>=diw*80?'#22c55e':kW>0?'#f97316':'#ef4444');
+  sk('kpi-keda-rep',kR);sk('kpi-keda-avg','moy '+(diw>0?Math.round(kW/diw):0)+'/j');
+  var kt=kW>0?((kR/kW)*100).toFixed(1):'0';sk('kpi-keda-taux',kt+'%',+kt>=5?'#22c55e':+kt>=3?'#f97316':'#ef4444');
   sk('kpi-pharrell-month',pM,pM>0?'#60a5fa':'#64748b');sk('kpi-pharrell-month-rep',pMR+' rep');
   sk('kpi-sasha-month',sM,sM>0?'#a855f7':'#64748b');sk('kpi-sasha-month-rep',sMR+' rep');
-  var tM=pM+sM;sk('kpi-total-month',tM,tM>=2000?'#22c55e':'#f97316');
+  sk('kpi-keda-month',kM,kM>0?'#f97316':'#64748b');sk('kpi-keda-month-rep',kMR+' rep');
+  var tM=pM+sM+kM;sk('kpi-total-month',tM,tM>=2000?'#22c55e':'#f97316');
   sk('kpi-total-month-info',tM>=2000?'Bonus volume atteint !':(2000-tM)+' DM restants');
-  var gT=(pM+sM)>0?(((pMR+sMR)/(pM+sM))*100).toFixed(1)+'%':'--';
+  var gT=(pM+sM+kM)>0?(((pMR+sMR+kMR)/(pM+sM+kM))*100).toFixed(1)+'%':'--';
   sk('kpi-global-taux',gT,parseFloat(gT)>=5?'#22c55e':parseFloat(gT)>=3?'#f97316':'#ef4444');
 
   var db=document.getElementById('detail-body');
@@ -482,7 +490,7 @@ async function fetchAllSheets(){
     if(tx<3&&a.wD>=50)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128308;</div><div><strong>'+a.person+' - '+a.account+'</strong> : taux '+tx.toFixed(1)+'%. Changer le template.</div></div>';
   });
   if(tM>=2000)ah+='<div class="alert-card alert-info"><div class="alert-icon">&#127919;</div><div><strong>2000 DM/mois atteint !</strong> Bonus volume.</div></div>';
-  if(pW===0&&sW===0&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128680;</div><div><strong>Aucun DM cette semaine !</strong></div></div>';
+  if(pW===0&&sW===0&&kW===0&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128680;</div><div><strong>Aucun DM cette semaine !</strong></div></div>';
   if(!ah)ah='<div class="alert-card alert-info"><div class="alert-icon">&#10003;</div><div>RAS. Tout est en ordre.</div></div>';
   al.innerHTML=ah;
   var time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
