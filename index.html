@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach HQ â Team Dashboard</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3b82f6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Outreach HQ">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e2e8f0;min-height:100vh}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);padding:12px 20px;display:flex;align-items:center;gap:10px;overflow-x:auto}
+  .nav-logo{font-weight:900;font-size:1rem;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-right:12px;white-space:nowrap}
+  .nav-btn{padding:7px 16px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#64748b;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+  .nav-btn:hover{border-color:rgba(255,255,255,0.2);color:#e2e8f0}
+  .nav-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-color:transparent;color:#fff}
+  .nav-divider{width:1px;height:24px;background:rgba(255,255,255,0.08);margin:0 4px}
+  .nav-btn.manager-btn{border-color:rgba(244,114,182,0.3);color:#f472b6}
+  .nav-btn.manager-btn.active{background:linear-gradient(135deg,#ec4899,#f43f5e)}
+
+  .container{max-width:960px;margin:0 auto;padding:28px 20px 60px}
+  .section{display:none}.section.active{display:block}
+
+  h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+  h2{font-size:1.2rem;font-weight:800;color:#60a5fa;margin:24px 0 14px}
+  h3{font-size:1rem;font-weight:700;color:#a78bfa;margin:18px 0 10px}
+  .subtitle{color:#64748b;font-size:0.88rem;margin-bottom:24px}
+
+  .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:18px;margin-bottom:14px}
+  .card:hover{border-color:rgba(255,255,255,0.1)}
+  .card-accent{border-left:3px solid}
+
+  table{width:100%;border-collapse:collapse;margin:10px 0}
+  th{background:rgba(59,130,246,0.12);color:#60a5fa;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:9px 12px;text-align:left}
+  td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.85rem;color:#cbd5e1}
+  tr:hover td{background:rgba(255,255,255,0.015)}
+
+  .badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+  .badge-blue{background:rgba(96,165,250,0.15);color:#60a5fa}
+  .badge-green{background:rgba(34,197,94,0.15);color:#22c55e}
+  .badge-orange{background:rgba(249,115,22,0.15);color:#f97316}
+  .badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+  .badge-purple{background:rgba(168,85,247,0.15);color:#a855f7}
+
+  .alert-card{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;margin-bottom:10px;font-size:0.88rem}
+  .alert-warn{background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2)}
+  .alert-info{background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2)}
+  .alert-icon{font-size:1.2rem;margin-top:1px}
+
+  .checklist{list-style:none}
+  .checklist li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;user-select:none;transition:all .15s}
+  .checklist li .ck{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .2s}
+  .checklist li.done{opacity:.35;text-decoration:line-through}
+  .checklist li.done .ck{background:#22c55e;border-color:#22c55e}
+  .checklist li.done .ck::after{content:'â';color:#fff;font-size:11px;font-weight:700}
+
+  .template-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.7;color:#94a3b8;white-space:pre-line;margin:10px 0}
+  .copy-btn{background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .copy-btn:hover{background:rgba(96,165,250,0.2)}
+  .copy-btn.copied{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.25)}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:14px 0}
+  .kpi-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;text-align:center}
+  .kpi-label{font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+  .kpi-value{font-size:1.4rem;font-weight:800}
+  .kpi-target{font-size:0.68rem;color:#64748b;margin-top:3px}
+  .kpi-green .kpi-value{color:#22c55e}
+  .kpi-red .kpi-value{color:#ef4444}
+  .kpi-blue .kpi-value{color:#60a5fa}
+  .kpi-purple .kpi-value{color:#a855f7}
+
+  .sheet-frame{width:100%;height:600px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;margin:14px 0}
+  .sheet-frame iframe{width:100%;height:100%;border:none}
+
+  .relance-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px}
+  .relance-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .relance-dot.urgent{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,0.4)}
+  .relance-dot.warning{background:#f97316;box-shadow:0 0 8px rgba(249,115,22,0.3)}
+  .relance-dot.ok{background:#22c55e}
+  .relance-text{flex:1;font-size:0.85rem}
+  .relance-time{font-size:0.75rem;color:#64748b;white-space:nowrap}
+
+  .input-row{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+  .input-row input,.input-row select{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;color:#e2e8f0;font-size:0.82rem;font-family:'Inter',sans-serif}
+  .input-row input:focus,.input-row select:focus{outline:none;border-color:rgba(96,165,250,0.4)}
+  .input-row input{flex:1;min-width:120px}
+  .input-row select{min-width:100px}
+  .btn-add{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .btn-add:hover{opacity:0.85}
+  .btn-remove{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);padding:4px 10px;border-radius:6px;font-size:0.72rem;cursor:pointer}
+
+  .tab-switch{display:flex;gap:6px;margin-bottom:14px}
+  .tab-sw{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#64748b;font-size:0.78rem;font-weight:600;cursor:pointer}
+  .tab-sw.active{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.3)}
+
+  @media(max-width:640px){
+    .container{padding:16px 12px 40px}
+    h1{font-size:1.4rem}
+    .kpi-grid{grid-template-columns:1fr 1fr}
+    .input-row{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">OUTREACH HQ</div>
+  <button class="nav-btn active" onclick="show('team')">Team</button>
+  <button class="nav-btn" onclick="show('routine')">Routine</button>
+  <button class="nav-btn" onclick="show('messages')">Messages</button>
+  <button class="nav-btn" onclick="show('relances')">Relances</button>
+  <button class="nav-btn" onclick="show('sheet')">Sheet</button>
+  <button class="nav-btn" onclick="show('rules')">Deal</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn manager-btn" onclick="show('manager')">Manager</button>
+</nav>
+
+<div class="container">
+
+<!-- ==================== TEAM ==================== -->
+<div id="team" class="section active">
+  <h1>L'ÃQUIPE</h1>
+  <p class="subtitle">Qui gÃ¨re quoi. Simple et clair.</p>
+
+  <div class="card">
+    <table>
+      <tr><th>Personne</th><th>Comptes gÃ©rÃ©s</th><th>Type de comptes</th><th>Quota DM/jour</th></tr>
+      <tr>
+        <td><strong>Pharrell</strong></td>
+        <td>titouanhstl, titouansfd</td>
+        <td><span class="badge badge-blue">Manager</span></td>
+        <td><span class="badge badge-green">40+ par compte</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sasha</strong></td>
+        <td>iamcollinsashley, saybossie / leacdf</td>
+        <td><span class="badge badge-purple">Assistant (fille)</span></td>
+        <td><span class="badge badge-green">40+ par compte</span></td>
+      </tr>
+      <tr>
+        <td><strong>Backup</strong></td>
+        <td><em>Variable selon les besoins</em></td>
+        <td><span class="badge" style="background:rgba(148,163,184,0.1);color:#94a3b8">Flexible</span></td>
+        <td><span class="badge badge-green">40+</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Rappel rapide</h3>
+    <p style="font-size:0.88rem;line-height:1.6;color:#94a3b8">
+      <strong style="color:#60a5fa">Comptes Manager</strong> = comptes perso avec lifestyle, on DM uniquement les filles qui ont <strong>dÃ©jÃ </strong> OF. Approche pro.<br>
+      <strong style="color:#a855f7">Comptes Assistant</strong> = faux comptes de filles, on DM en mode copine. Filles avec ou sans OF.
+    </p>
+  </div>
+
+  <div class="alert-card alert-info">
+    <div class="alert-icon">ð¡</div>
+    <div>Titouan supervise et close les deals. DÃ¨s qu'une modÃ¨le est <strong>intÃ©ressÃ©e</strong>, mentionnez-le dans le groupe WhatsApp avec le @ du compte utilisÃ© et le @ de la modÃ¨le.</div>
+  </div>
+</div>
+
+<!-- ==================== ROUTINE ==================== -->
+<div id="routine" class="section">
+  <h1>ROUTINE QUOTIDIENNE</h1>
+  <p class="subtitle">Pas d'heures imposÃ©es, mais tout doit Ãªtre fait chaque jour (6j/7, dimanche off).</p>
+
+  <h2>Ã faire chaque jour</h2>
+  <div class="card">
+    <ul class="checklist" id="daily-cl">
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Check-in WhatsApp</strong> â Envoyez un message au groupe quand vous commencez. Simple : "Je commence, objectif [X] DM sur [compte]."</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Traiter les rÃ©ponses en prioritÃ©</strong> â Avant d'envoyer de nouveaux DM, rÃ©pondez Ã  toutes les filles qui ont rÃ©pondu depuis la veille. C'est la prioritÃ© nÂ°1.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>40 DM minimum par compte</strong> â Utilisez le message que Titouan a partagÃ© dans le groupe WhatsApp. Pas d'impro sur les messages.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Conversations actives</strong> â N'oubliez pas de continuer les convos en cours avec les modÃ¨les engagÃ©es. Pas de ghosting de notre cÃ´tÃ©.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Mettre Ã  jour la Google Sheet</strong> â Chaque DM envoyÃ© = la ligne est mise Ã  jour. Statut, date, message utilisÃ©.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Rapport du soir</strong> â Envoyez votre rapport sur le groupe WhatsApp quand vous avez fini.</div></li>
+    </ul>
+  </div>
+
+  <h2>Template du rapport</h2>
+  <div class="template-box" id="tpl-rapport">RAPPORT â [Date]
+Compte : [nom du compte]
+DM envoyÃ©s : [nombre]
+RÃ©ponses reÃ§ues : [nombre]
+Convos actives continuÃ©es : [nombre]
+Leads intÃ©ressÃ©s : [nombre]
+ProblÃ¨mes : [aucun / dÃ©tailler]
+Sheet Ã  jour : â</div>
+  <button class="copy-btn" onclick="copyText('tpl-rapport',this)">Copier le template</button>
+
+  <div class="alert-card alert-warn" style="margin-top:16px">
+    <div class="alert-icon">â ï¸</div>
+    <div>Si vous ne pouvez pas bosser un jour, <strong>prÃ©venez Ã  l'avance</strong> dans le groupe. Pas de message = pas cool et Ã§a impacte tout le monde.</div>
+  </div>
+</div>
+
+<!-- ==================== MESSAGES ==================== -->
+<div id="messages" class="section">
+  <h1>SÃQUENCE DE MESSAGES</h1>
+  <p class="subtitle">Le timing et la mÃ©thode pour chaque type de compte.</p>
+
+  <h2>Comptes Assistant (Sasha)</h2>
+  <div class="card">
+    <table>
+      <tr><th>Ãtape</th><th>Timing</th><th>Action</th></tr>
+      <tr><td><strong>Jour 0</strong></td><td>ImmÃ©diat</td><td>Follow + Like 2-3 posts + DM "copine" (message donnÃ© par Titouan)</td></tr>
+      <tr><td><strong>Jour 2</strong></td><td>+48h</td><td>Relance lÃ©gÃ¨re si pas de rÃ©ponse</td></tr>
+      <tr><td><strong>Jour 5</strong></td><td>+72h</td><td>DerniÃ¨re relance, mention indirecte OF</td></tr>
+      <tr><td><strong>Jour 8+</strong></td><td>â</td><td>Pas de rÃ©ponse â on passe, on archive</td></tr>
+    </table>
+    <p style="font-size:0.82rem;color:#94a3b8;margin-top:10px">3 relances max. AprÃ¨s c'est mort, on perd pas de temps.</p>
+  </div>
+
+  <h2>Comptes Manager (Pharrell)</h2>
+  <div class="card">
+    <table>
+      <tr><th>Ãtape</th><th>Timing</th><th>Action</th></tr>
+      <tr><td><strong>Jour 0</strong></td><td>ImmÃ©diat</td><td>DM direct, approche pro. <strong>Uniquement filles dÃ©jÃ  sur OF.</strong></td></tr>
+      <tr><td colspan="3" style="padding:12px;background:rgba(249,115,22,0.05);border-left:3px solid #f97316">
+        <strong style="color:#f97316">Si la modÃ¨le a rÃ©pondu une fois puis plus rien :</strong><br>
+        <span style="color:#94a3b8">â Ne PAS relancer vous-mÃªme. Mentionnez Titouan dans le groupe WhatsApp : <strong style="color:#e2e8f0">"@Titouan relance sur [compte utilisÃ©] pour [@ modÃ¨le]"</strong></span>
+      </td></tr>
+    </table>
+    <p style="font-size:0.82rem;color:#94a3b8;margin-top:10px">Pas de relance automatique sur les comptes manager. C'est Titouan qui dÃ©cide de la suite.</p>
+  </div>
+
+  <div class="alert-card alert-info">
+    <div class="alert-icon">ð</div>
+    <div><strong>RÃ¨gle d'or :</strong> DÃ¨s qu'une fille montre de l'intÃ©rÃªt (pose des questions, demande des infos) â message immÃ©diat dans le groupe WhatsApp avec le <strong>@ du compte utilisÃ©</strong> et le <strong>@ de la modÃ¨le</strong>.</div>
+  </div>
+</div>
+
+<!-- ==================== RELANCES ==================== -->
+<div id="relances" class="section">
+  <h1>SUIVI & RELANCES</h1>
+  <p class="subtitle">Tracker les leads qui nÃ©cessitent une action. Ajoutez vos relances ici.</p>
+
+  <h2>Ajouter une relance</h2>
+  <div class="card">
+    <div class="input-row">
+      <input type="text" id="rel-model" placeholder="@ de la modÃ¨le">
+      <input type="text" id="rel-account" placeholder="Compte utilisÃ©">
+      <select id="rel-type">
+        <option value="replied">A rÃ©pondu 1x puis silence</option>
+        <option value="interested">IntÃ©ressÃ©e â attente Titouan</option>
+        <option value="followup">Relance Ã  faire</option>
+      </select>
+      <input type="date" id="rel-date">
+      <button class="btn-add" onclick="addRelance()">Ajouter</button>
+    </div>
+  </div>
+
+  <h2>Relances actives</h2>
+  <div id="relance-list">
+    <div class="card" style="text-align:center;color:#475569;padding:30px">
+      Aucune relance pour le moment. Ajoutez-en une ci-dessus.
+    </div>
+  </div>
+
+  <h2 style="margin-top:24px">Rappels automatiques</h2>
+  <div class="alert-card alert-warn">
+    <div class="alert-icon">ð</div>
+    <div><strong>ModÃ¨les qui ont rÃ©pondu 1 fois puis plus rien :</strong> Si Ã§a fait +48h, c'est le moment de demander Ã  Titouan de relancer (comptes manager) ou d'envoyer le Mess 2 (comptes assistant).</div>
+  </div>
+  <div class="alert-card alert-warn">
+    <div class="alert-icon">ð</div>
+    <div><strong>Conversations actives :</strong> Si une modÃ¨le est engagÃ©e dans la convo, ne la laissez JAMAIS en vu plus de 24h. C'est lÃ  qu'on perd des deals.</div>
+  </div>
+  <div class="alert-card alert-info">
+    <div class="alert-icon">ð¡</div>
+    <div><strong>Leads "intÃ©ressÃ©s" :</strong> DÃ¨s que vous ajoutez une relance de type "IntÃ©ressÃ©e", pensez Ã  tag Titouan dans le groupe WhatsApp pour qu'il prenne le relais sur le closing.</div>
+  </div>
+</div>
+
+<!-- ==================== SHEET ==================== -->
+<div id="sheet" class="section">
+  <h1>GOOGLE SHEET</h1>
+  <p class="subtitle">La sheet de tracking en direct. Mettez-la Ã  jour en temps rÃ©el.</p>
+
+  <div class="sheet-frame">
+    <iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe>
+  </div>
+
+  <div class="alert-card alert-info" style="margin-top:12px">
+    <div class="alert-icon">ð</div>
+    <div>
+      <strong>Comment remplir la sheet :</strong><br>
+      <span style="color:#94a3b8">Chaque lead = 1 ligne. Remplissez : username, URL, message utilisÃ©, statut, date du DM. Mettez Ã  jour le statut Ã  chaque changement (rÃ©ponse, relance, etc).</span>
+    </div>
+  </div>
+
+  <div class="alert-card alert-warn">
+    <div class="alert-icon">â ï¸</div>
+    <div>La sheet doit Ãªtre Ã  jour <strong>en temps rÃ©el</strong>. Pas Ã  la fin de la journÃ©e, pas Ã  la fin de la semaine. C'est ce qui permet Ã  tout le monde de savoir oÃ¹ on en est.</div>
+  </div>
+</div>
+
+<!-- ==================== DEAL ==================== -->
+<div id="rules" class="section">
+  <h1>LE DEAL</h1>
+  <p class="subtitle">Comment Ã§a fonctionne entre nous. Transparent et fair.</p>
+
+  <h2>Compensation</h2>
+  <div class="card">
+    <table>
+      <tr><th>ÃlÃ©ment</th><th>Montant</th><th>DÃ©tails</th></tr>
+      <tr>
+        <td><strong>Fixe mensuel</strong></td>
+        <td><strong>300$ / mois</strong></td>
+        <td>Base pour la gestion de <strong>3 comptes</strong>. Si plus de comptes = bonus dÃ©cidÃ© par Titouan.</td>
+      </tr>
+      <tr>
+        <td><strong>Prime par signature</strong></td>
+        <td><strong style="color:#22c55e">400$ par modÃ¨le signÃ©e</strong></td>
+        <td>Si le lead vient de votre outreach. Pas de limite.</td>
+      </tr>
+      <tr>
+        <td><strong>Bonus volume</strong></td>
+        <td><strong style="color:#60a5fa">DÃ©cidÃ© par Titouan</strong></td>
+        <td>Bonus attribuÃ© si le volume et la qualitÃ© du travail sont au rendez-vous.</td>
+      </tr>
+      <tr>
+        <td><strong>PÃ©nalitÃ©</strong></td>
+        <td><strong style="color:#ef4444">DÃ©duction sur le fixe</strong></td>
+        <td>En cas d'absence non prÃ©venue ou de non-respect du deal (pas de rapports, sheet pas Ã  jour, quotas ignorÃ©s).</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>Ce qu'on attend</h2>
+  <div class="card">
+    <ul style="list-style:none;font-size:0.88rem;line-height:2;color:#cbd5e1">
+      <li>â 40 DM minimum / jour / compte (6j/7)</li>
+      <li>â Rapport quotidien sur WhatsApp quand vous avez fini</li>
+      <li>â Google Sheet Ã  jour en temps rÃ©el</li>
+      <li>â RÃ©pondre aux modÃ¨les qui rÃ©pondent â ne jamais laisser en vu</li>
+      <li>â PrÃ©venir Ã  l'avance si vous pouvez pas bosser un jour</li>
+      <li>â Tag Titouan dÃ¨s qu'une modÃ¨le est intÃ©ressÃ©e</li>
+      <li>â Utiliser uniquement les messages validÃ©s par Titouan</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:3px solid #22c55e">
+    <p style="font-size:0.88rem;color:#94a3b8">On est une Ã©quipe. Le but c'est de scale ensemble. Si vous faites le taf, les primes et les bonus suivent. ðª</p>
+  </div>
+</div>
+
+<!-- ==================== MANAGER VIEW ==================== -->
+<div id="manager" class="section">
+  <h1 style="background:linear-gradient(135deg,#ec4899,#f43f5e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">MANAGER VIEW</h1>
+  <p class="subtitle">Vue rÃ©servÃ©e Ã  Titouan. DonnÃ©es en temps rÃ©el depuis la Google Sheet.</p>
+
+  <!-- LIVE DATA BANNER -->
+  <div class="card" style="border-left:3px solid #22c55e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <span style="color:#22c55e;font-weight:700;font-size:0.85rem" id="live-status">â³ Chargement des donnÃ©es...</span>
+      <span style="color:#475569;font-size:0.78rem;margin-left:8px" id="live-time"></span>
+    </div>
+    <button class="btn-add" onclick="fetchAllSheets()" style="padding:6px 14px;font-size:0.78rem">ð RafraÃ®chir</button>
+  </div>
+
+  <!-- WEEKLY KPIs FROM SHEET -->
+  <h2>Cette semaine (live depuis la sheet)</h2>
+  <div class="kpi-grid" id="kpi-live-grid">
+    <div class="kpi-card"><div class="kpi-label">Pharrell â DM semaine</div><div class="kpi-value" id="kpi-pharrell-dm">â</div><div class="kpi-target" id="kpi-pharrell-avg">chargement...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pharrell â RÃ©ponses</div><div class="kpi-value" id="kpi-pharrell-rep">â</div><div class="kpi-target" id="kpi-pharrell-taux">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Sasha â DM semaine</div><div class="kpi-value" id="kpi-sasha-dm">â</div><div class="kpi-target" id="kpi-sasha-avg">chargement...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Sasha â RÃ©ponses</div><div class="kpi-value" id="kpi-sasha-rep">â</div><div class="kpi-target" id="kpi-sasha-taux">â</div></div>
+  </div>
+
+  <!-- DETAIL PER ACCOUNT -->
+  <h2>DÃ©tail par compte</h2>
+  <div class="card" id="detail-accounts">
+    <table>
+      <thead><tr><th>Personne</th><th>Compte</th><th>DM semaine</th><th>RÃ©ponses</th><th>Taux</th><th>Moy/jour</th><th>Status</th></tr></thead>
+      <tbody id="detail-body">
+        <tr><td colspan="7" style="text-align:center;color:#475569;padding:20px">Chargement des donnÃ©es depuis la Google Sheet...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DAILY BREAKDOWN -->
+  <h2>DÃ©tail jour par jour (semaine en cours)</h2>
+  <div class="card" id="daily-breakdown">
+    <div style="text-align:center;color:#475569;padding:20px">Chargement...</div>
+  </div>
+
+  <!-- MONTH TOTALS -->
+  <h2>Total du mois</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">Pharrell â DM mois</div><div class="kpi-value" id="kpi-pharrell-month">â</div><div class="kpi-target" id="kpi-pharrell-month-rep">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Sasha â DM mois</div><div class="kpi-value" id="kpi-sasha-month">â</div><div class="kpi-target" id="kpi-sasha-month-rep">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total Ã©quipe â DM mois</div><div class="kpi-value" id="kpi-total-month">â</div><div class="kpi-target" id="kpi-total-month-info">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Taux rÃ©ponse global</div><div class="kpi-value" id="kpi-global-taux">â</div><div class="kpi-target">objectif > 5%</div></div>
+  </div>
+
+  <!-- ALERTS -->
+  <h2>Alertes automatiques</h2>
+  <div id="auto-alerts">
+    <div class="alert-card alert-info"><div class="alert-icon">â³</div><div>Les alertes se mettent Ã  jour aprÃ¨s le chargement des donnÃ©es.</div></div>
+  </div>
+
+  <h2>Check hebdo (chaque lundi)</h2>
+  <div class="card">
+    <ul class="checklist" id="hebdo-cl">
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Stats de la semaine</strong> â VÃ©rifier le total DM par compte, taux de rÃ©ponse, leads intÃ©ressÃ©es et signÃ©es</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>VÃ©rifier la sheet</strong> â Des leads contactÃ©es depuis +5 jours sans changement de statut = problÃ¨me</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>QualitÃ© des rapports</strong> â Est-ce qu'ils envoient tous les jours ? Est-ce que la sheet est Ã  jour ?</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Ajuster les messages</strong> â Si taux de rÃ©ponse < 3% pendant 2 semaines, il faut changer le template</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Message rÃ©cap WhatsApp</strong> â FÃ©liciter si c'est bien, recadrer avec les chiffres si c'est pas bon</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Primes & pÃ©nalitÃ©s</strong> â Calculer ce qui est dÃ» (signatures, bonus volume, dÃ©ductions Ã©ventuelles)</div></li>
+    </ul>
+  </div>
+
+  <h2>Sheet en direct</h2>
+  <div class="sheet-frame" style="height:400px">
+    <iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ===== NAVIGATION =====
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ===== CHECKLISTS =====
+function toggle(li) { li.classList.toggle('done'); }
+
+// ===== COPY =====
+function copyText(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
+    btn.textContent = 'CopiÃ© !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier le template'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ===== RELANCES =====
+let relances = [];
+
+function addRelance() {
+  const model = document.getElementById('rel-model').value.trim();
+  const account = document.getElementById('rel-account').value.trim();
+  const type = document.getElementById('rel-type').value;
+  const date = document.getElementById('rel-date').value;
+  if (!model || !account) return alert('Remplissez le @ de la modÃ¨le et le compte utilisÃ©');
+
+  relances.push({ model, account, type, date: date || new Date().toISOString().split('T')[0], id: Date.now() });
+  renderRelances();
+
+  document.getElementById('rel-model').value = '';
+  document.getElementById('rel-account').value = '';
+  document.getElementById('rel-date').value = '';
+}
+
+function removeRelance(id) {
+  relances = relances.filter(r => r.id !== id);
+  renderRelances();
+}
+
+function renderRelances() {
+  const container = document.getElementById('relance-list');
+  if (relances.length === 0) {
+    container.innerHTML = '<div class="card" style="text-align:center;color:#475569;padding:30px">Aucune relance pour le moment. Ajoutez-en une ci-dessus.</div>';
+    return;
+  }
+
+  const now = new Date();
+  container.innerHTML = relances.map(r => {
+    const diff = Math.floor((now - new Date(r.date)) / (1000*60*60*24));
+    let dotClass = 'ok', timeLabel = `${diff}j`;
+    if (diff >= 3) { dotClass = 'urgent'; timeLabel = `${diff}j â ï¸`; }
+    else if (diff >= 1) { dotClass = 'warning'; }
+
+    const typeLabels = {
+      replied: '<span class="badge badge-orange">A rÃ©pondu puis silence</span>',
+      interested: '<span class="badge badge-green">IntÃ©ressÃ©e</span>',
+      followup: '<span class="badge badge-blue">Relance Ã  faire</span>',
+    };
+
+    return `
+      <div class="relance-item">
+        <div class="relance-dot ${dotClass}"></div>
+        <div class="relance-text">
+          <strong>@${r.model}</strong> via <strong>${r.account}</strong><br>
+          ${typeLabels[r.type]}
+        </div>
+        <div class="relance-time">${timeLabel}</div>
+        <button class="btn-remove" onclick="removeRelance(${r.id})">Ã</button>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== GOOGLE SHEETS LIVE DATA =====
+const SHEET_ID = '1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
+
+// Map: sheet tab name â { person, gid }
+// GIDs from the URLs we captured during analysis
+const ACCOUNTS = [
+  { tab: 'titouanhstl (mgmt pharrell)', person: 'Pharrell', account: 'titouanhstl', gid: 0 },
+  { tab: 'titouansfd (mgmt titouan)', person: 'Pharrell', account: 'titouansfd', gid: 835874806 },
+  { tab: 'rachelwiliii (mgmt sasha)', person: 'Sasha', account: 'rachelwiliii', gid: 2089642466 },
+  { tab: 'iamcollinsahsley (mgmt esteban)', person: 'Sasha', account: 'iamcollinsashley', gid: null },
+  { tab: 'leacdf (mgmt titouan)', person: 'Sasha', account: 'leacdf', gid: null },
+];
+
+// Discover missing GIDs by trying common patterns
+async function discoverGids() {
+  // Try to fetch the sheet list from the HTML view
+  try {
+    const testGids = [0, 835874806, 2089642466];
+    // For tabs without known GIDs, we'll try to fetch them
+    for (const acc of ACCOUNTS) {
+      if (acc.gid === null) {
+        // Try common gid patterns - we'll attempt fetching and see what works
+        const candidates = [1, 2, 3, 4, 5, 100, 200, 1000000000, 1500000000, 500000000, 750000000, 123456789];
+        for (const g of candidates) {
+          if (testGids.includes(g)) continue;
+          try {
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${g}`;
+            const resp = await fetch(url);
+            const text = await resp.text();
+            if (text.includes(acc.account) || text.includes(acc.tab.split(' ')[0])) {
+              acc.gid = g;
+              testGids.push(g);
+              break;
+            }
+          } catch(e) {}
+        }
+      }
+    }
+  } catch(e) {}
+}
+
+function getWeekRange() {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  monday.setHours(0,0,0,0);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23,59,59,999);
+  return { monday, sunday };
+}
+
+function getMonthRange() {
+  const now = new Date();
+  const first = new Date(now.getFullYear(), now.getMonth(), 1);
+  const last = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+  return { first, last };
+}
+
+function parseGvizResponse(text) {
+  // Google returns: google.visualization.Query.setResponse({...})
+  const match = text.match(/google\.visualization\.Query\.setResponse\((.+)\);?\s*$/s);
+  if (!match) return null;
+  try {
+    return JSON.parse(match[1]);
+  } catch(e) {
+    return null;
+  }
+}
+
+function parseDate(val) {
+  if (!val) return null;
+  // gviz dates can be "Date(2026,2,12)" format (month is 0-indexed) or string "12/03/2026"
+  if (typeof val === 'string' && val.startsWith('Date(')) {
+    const parts = val.match(/Date\((\d+),(\d+),(\d+)\)/);
+    if (parts) return new Date(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]));
+  }
+  if (val instanceof Object && val.v) return parseDate(val.v);
+  // Try parsing as DD/MM/YYYY
+  if (typeof val === 'string') {
+    const parts = val.split('/');
+    if (parts.length === 3) return new Date(parts[2], parts[1]-1, parts[0]);
+    return new Date(val);
+  }
+  return null;
+}
+
+async function fetchSheetData(gid) {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${gid}`;
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const data = parseGvizResponse(text);
+    if (!data || !data.table) return [];
+
+    const rows = [];
+    for (const row of data.table.rows) {
+      const cells = row.c || [];
+      // We expect: col 0 = date, col 1 = # messages, col 2 = # rÃ©ponses
+      const dateCell = cells[0];
+      const dmCell = cells[1];
+      const repCell = cells[2];
+
+      if (!dateCell || !dateCell.v) continue;
+
+      let date = null;
+      // Handle gviz Date format
+      if (typeof dateCell.v === 'string' && dateCell.v.startsWith('Date(')) {
+        const parts = dateCell.v.match(/Date\((\d+),(\d+),(\d+)\)/);
+        if (parts) date = new Date(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]));
+      } else if (dateCell.v instanceof Date) {
+        date = dateCell.v;
+      } else if (typeof dateCell.v === 'string') {
+        // Try DD/MM/YYYY
+        const p = dateCell.v.split('/');
+        if (p.length === 3) date = new Date(p[2], p[1]-1, p[0]);
+      }
+
+      if (!date || isNaN(date.getTime())) continue;
+
+      const dm = dmCell && dmCell.v ? parseInt(dmCell.v) || 0 : 0;
+      const rep = repCell && repCell.v ? parseInt(repCell.v) || 0 : 0;
+
+      rows.push({ date, dm, rep });
+    }
+    return rows;
+  } catch(e) {
+    console.error('Fetch error for gid', gid, e);
+    return [];
+  }
+}
+
+async function fetchAllSheets() {
+  document.getElementById('live-status').innerHTML = 'â³ Chargement des donnÃ©es...';
+
+  const { monday, sunday } = getWeekRange();
+  const { first: monthFirst, last: monthLast } = getMonthRange();
+
+  const accountResults = [];
+  let fetchedCount = 0;
+  let errorCount = 0;
+
+  for (const acc of ACCOUNTS) {
+    if (acc.gid === null) {
+      errorCount++;
+      accountResults.push({ ...acc, weekDm: 0, weekRep: 0, monthDm: 0, monthRep: 0, dailyData: [], error: true });
+      continue;
+    }
+
+    const rows = await fetchSheetData(acc.gid);
+    let weekDm = 0, weekRep = 0, monthDm = 0, monthRep = 0;
+    const dailyData = [];
+
+    for (const r of rows) {
+      // Week filter
+      if (r.date >= monday && r.date <= sunday) {
+        weekDm += r.dm;
+        weekRep += r.rep;
+        dailyData.push(r);
+      }
+      // Month filter
+      if (r.date >= monthFirst && r.date <= monthLast) {
+        monthDm += r.dm;
+        monthRep += r.rep;
+      }
+    }
+
+    fetchedCount++;
+    accountResults.push({ ...acc, weekDm, weekRep, monthDm, monthRep, dailyData, error: false });
+  }
+
+  // ===== AGGREGATE BY PERSON =====
+  const pharrellAccounts = accountResults.filter(a => a.person === 'Pharrell');
+  const sashaAccounts = accountResults.filter(a => a.person === 'Sasha');
+
+  const pharrellWeekDm = pharrellAccounts.reduce((s, a) => s + a.weekDm, 0);
+  const pharrellWeekRep = pharrellAccounts.reduce((s, a) => s + a.weekRep, 0);
+  const sashaWeekDm = sashaAccounts.reduce((s, a) => s + a.weekDm, 0);
+  const sashaWeekRep = sashaAccounts.reduce((s, a) => s + a.weekRep, 0);
+
+  const pharrellMonthDm = pharrellAccounts.reduce((s, a) => s + a.monthDm, 0);
+  const pharrellMonthRep = pharrellAccounts.reduce((s, a) => s + a.monthRep, 0);
+  const sashaMonthDm = sashaAccounts.reduce((s, a) => s + a.monthDm, 0);
+  const sashaMonthRep = sashaAccounts.reduce((s, a) => s + a.monthRep, 0);
+
+  // Count days in week so far
+  const now = new Date();
+  const daysInWeek = Math.min(7, Math.floor((now - monday) / (1000*60*60*24)) + 1);
+
+  // ===== UPDATE KPI CARDS =====
+  const setKpi = (id, val, color) => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = val; if (color) el.style.color = color; }
+  };
+
+  setKpi('kpi-pharrell-dm', pharrellWeekDm, pharrellWeekDm >= daysInWeek * 40 * 2 ? '#22c55e' : pharrellWeekDm > 0 ? '#f97316' : '#ef4444');
+  setKpi('kpi-pharrell-rep', pharrellWeekRep);
+  setKpi('kpi-pharrell-avg', `moy ${daysInWeek > 0 ? Math.round(pharrellWeekDm / daysInWeek) : 0}/jour (2 comptes)`);
+  const pharrellTaux = pharrellWeekDm > 0 ? ((pharrellWeekRep / pharrellWeekDm) * 100).toFixed(1) : '0';
+  setKpi('kpi-pharrell-taux', `taux ${pharrellTaux}%`, parseFloat(pharrellTaux) >= 5 ? '#22c55e' : parseFloat(pharrellTaux) >= 3 ? '#f97316' : '#ef4444');
+
+  setKpi('kpi-sasha-dm', sashaWeekDm, sashaWeekDm >= daysInWeek * 40 * 2 ? '#22c55e' : sashaWeekDm > 0 ? '#f97316' : '#ef4444');
+  setKpi('kpi-sasha-rep', sashaWeekRep);
+  setKpi('kpi-sasha-avg', `moy ${daysInWeek > 0 ? Math.round(sashaWeekDm / daysInWeek) : 0}/jour (2 comptes)`);
+  const sashaTaux = sashaWeekDm > 0 ? ((sashaWeekRep / sashaWeekDm) * 100).toFixed(1) : '0';
+  setKpi('kpi-sasha-taux', `taux ${sashaTaux}%`, parseFloat(sashaTaux) >= 5 ? '#22c55e' : parseFloat(sashaTaux) >= 3 ? '#f97316' : '#ef4444');
+
+  // Month KPIs
+  setKpi('kpi-pharrell-month', pharrellMonthDm, pharrellMonthDm > 0 ? '#60a5fa' : '#64748b');
+  setKpi('kpi-pharrell-month-rep', `${pharrellMonthRep} rÃ©ponses`);
+  setKpi('kpi-sasha-month', sashaMonthDm, sashaMonthDm > 0 ? '#a855f7' : '#64748b');
+  setKpi('kpi-sasha-month-rep', `${sashaMonthRep} rÃ©ponses`);
+  const totalMonth = pharrellMonthDm + sashaMonthDm;
+  setKpi('kpi-total-month', totalMonth, totalMonth >= 2000 ? '#22c55e' : '#f97316');
+  setKpi('kpi-total-month-info', totalMonth >= 2000 ? 'ð¯ Bonus volume atteint !' : `${2000 - totalMonth} DM restants pour le bonus`);
+  const globalTaux = (pharrellMonthDm + sashaMonthDm) > 0 ? (((pharrellMonthRep + sashaMonthRep) / (pharrellMonthDm + sashaMonthDm)) * 100).toFixed(1) + '%' : 'â';
+  setKpi('kpi-global-taux', globalTaux, parseFloat(globalTaux) >= 5 ? '#22c55e' : parseFloat(globalTaux) >= 3 ? '#f97316' : '#ef4444');
+
+  // ===== DETAIL TABLE =====
+  const detailBody = document.getElementById('detail-body');
+  detailBody.innerHTML = accountResults.map(a => {
+    if (a.error) return `<tr><td>${a.person}</td><td>${a.account}</td><td colspan="5" style="color:#ef4444">GID inconnu â ouvrir cet onglet dans la sheet pour rÃ©cupÃ©rer l'ID</td></tr>`;
+    const taux = a.weekDm > 0 ? ((a.weekRep / a.weekDm) * 100).toFixed(1) + '%' : '0%';
+    const tauxVal = a.weekDm > 0 ? (a.weekRep / a.weekDm) * 100 : 0;
+    const avg = daysInWeek > 0 ? Math.round(a.weekDm / daysInWeek) : 0;
+    const dmColor = avg >= 40 ? '#22c55e' : avg >= 20 ? '#f97316' : '#ef4444';
+    const tauxColor = tauxVal >= 5 ? '#22c55e' : tauxVal >= 3 ? '#f97316' : '#ef4444';
+    const statusBadge = avg >= 40 ? '<span class="badge badge-green">OK</span>' : avg >= 20 ? '<span class="badge badge-orange">Low</span>' : '<span class="badge badge-red">Alerte</span>';
+    return `<tr>
+      <td><strong>${a.person}</strong></td>
+      <td>${a.account}</td>
+      <td style="color:${dmColor};font-weight:700">${a.weekDm}</td>
+      <td>${a.weekRep}</td>
+      <td style="color:${tauxColor};font-weight:700">${taux}</td>
+      <td>${avg}/j</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }).join('');
+
+  // ===== DAILY BREAKDOWN =====
+  const dailyDiv = document.getElementById('daily-breakdown');
+  const dayNames = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  // Build a map of date â { account: { dm, rep } }
+  const dailyMap = {};
+  for (const acc of accountResults) {
+    if (acc.error) continue;
+    for (const d of acc.dailyData) {
+      const key = d.date.toISOString().split('T')[0];
+      if (!dailyMap[key]) dailyMap[key] = {};
+      dailyMap[key][acc.account] = { dm: d.dm, rep: d.rep };
+    }
+  }
+
+  const sortedDays = Object.keys(dailyMap).sort();
+  if (sortedDays.length === 0) {
+    dailyDiv.innerHTML = '<div style="text-align:center;color:#475569;padding:20px">Pas de donnÃ©es pour cette semaine.</div>';
+  } else {
+    const activeAccounts = accountResults.filter(a => !a.error).map(a => a.account);
+    let tableHtml = '<table><thead><tr><th>Jour</th>';
+    activeAccounts.forEach(a => { tableHtml += `<th>${a}</th>`; });
+    tableHtml += '<th>Total</th></tr></thead><tbody>';
+
+    for (const day of sortedDays) {
+      const d = new Date(day);
+      const dayName = dayNames[d.getDay()];
+      const dateStr = `${d.getDate()}/${d.getMonth()+1}`;
+      let dayTotal = 0;
+
+      tableHtml += `<tr><td><strong>${dayName} ${dateStr}</strong></td>`;
+      activeAccounts.forEach(acc => {
+        const data = dailyMap[day]?.[acc];
+        if (data) {
+          const color = data.dm >= 40 ? '#22c55e' : data.dm > 0 ? '#f97316' : '#ef4444';
+          tableHtml += `<td><span style="color:${color};font-weight:700">${data.dm}</span> <span style="color:#64748b;font-size:0.72rem">(${data.rep}r)</span></td>`;
+          dayTotal += data.dm;
+        } else {
+          tableHtml += '<td style="color:#333">â</td>';
+        }
+      });
+      tableHtml += `<td style="font-weight:700">${dayTotal}</td></tr>`;
+    }
+    tableHtml += '</tbody></table>';
+    dailyDiv.innerHTML = tableHtml;
+  }
+
+  // ===== AUTO ALERTS =====
+  const alertsDiv = document.getElementById('auto-alerts');
+  let alertsHtml = '';
+
+  // Check each account
+  for (const acc of accountResults) {
+    if (acc.error) continue;
+    const avg = daysInWeek > 0 ? Math.round(acc.weekDm / daysInWeek) : 0;
+    const taux = acc.weekDm > 0 ? (acc.weekRep / acc.weekDm) * 100 : 0;
+
+    if (avg < 20 && daysInWeek >= 2) {
+      alertsHtml += `<div class="alert-card alert-warn"><div class="alert-icon">ð´</div><div><strong>${acc.person} â ${acc.account}</strong> : seulement ${avg} DM/jour en moyenne. Objectif = 40+</div></div>`;
+    } else if (avg < 40 && avg >= 20 && daysInWeek >= 2) {
+      alertsHtml += `<div class="alert-card alert-warn"><div class="alert-icon">ð¡</div><div><strong>${acc.person} â ${acc.account}</strong> : ${avg} DM/jour en moyenne. Un peu sous l'objectif de 40.</div></div>`;
+    }
+
+    if (taux < 3 && acc.weekDm >= 50) {
+      alertsHtml += `<div class="alert-card alert-warn"><div class="alert-icon">ð´</div><div><strong>${acc.person} â ${acc.account}</strong> : taux de rÃ©ponse Ã  ${taux.toFixed(1)}%. Le message marche pas, changer le template.</div></div>`;
+    }
+  }
+
+  // Global alerts
+  if (totalMonth >= 2000) {
+    alertsHtml += `<div class="alert-card alert-info"><div class="alert-icon">ð¯</div><div><strong>Objectif 2000 DM/mois atteint !</strong> Penser au bonus volume.</div></div>`;
+  }
+
+  if (pharrellWeekDm === 0 && sashaWeekDm === 0 && daysInWeek >= 2) {
+    alertsHtml += `<div class="alert-card alert-warn"><div class="alert-icon">ð¨</div><div><strong>Aucun DM cette semaine !</strong> VÃ©rifier si l'Ã©quipe bosse et si la sheet est Ã  jour.</div></div>`;
+  }
+
+  if (!alertsHtml) {
+    alertsHtml = '<div class="alert-card alert-info"><div class="alert-icon">â</div><div>Pas d\'alertes pour le moment. Tout semble en ordre.</div></div>';
+  }
+
+  alertsDiv.innerHTML = alertsHtml;
+
+  // ===== STATUS =====
+  const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('live-status').innerHTML = `ð¢ DonnÃ©es chargÃ©es (${fetchedCount} comptes)`;
+  document.getElementById('live-time').textContent = `DerniÃ¨re mise Ã  jour : ${time}`;
+  if (errorCount > 0) {
+    document.getElementById('live-status').innerHTML += ` <span style="color:#f97316">(${errorCount} comptes sans GID)</span>`;
+  }
+}
+
+// Auto-fetch when manager tab is opened
+const origShow = show;
+show = function(id) {
+  origShow(id);
+  if (id === 'manager' && !window._managerLoaded) {
+    window._managerLoaded = true;
+    fetchAllSheets();
+  }
+};
+
+// Also auto-refresh every 5 minutes if manager tab is active
+setInterval(() => {
+  if (document.getElementById('manager').classList.contains('active')) {
+    fetchAllSheets();
+  }
+}, 300000);
+
+// ===== PWA SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').then(reg => {
+    console.log('SW registered:', reg.scope);
+  }).catch(err => console.log('SW error:', err));
+}
+</script>
+</body>
+</html>
