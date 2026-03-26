@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Outreach HQ &#8212; Team Dashboard</title>
+<title>Outreach HQ â Team Dashboard</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3b82f6">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Outreach HQ">
@@ -13,76 +13,126 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e2e8f0;min-height:100vh}
-  .nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);padding:12px 20px;display:flex;align-items:center;gap:10px;overflow-x:auto}
-  .nav-logo{font-weight:900;font-size:1rem;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-right:12px;white-space:nowrap}
-  .nav-btn{padding:7px 16px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#64748b;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
-  .nav-btn:hover{border-color:rgba(255,255,255,0.2);color:#e2e8f0}
-  .nav-btn.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-color:transparent;color:#fff}
+  body{font-family:'Inter',sans-serif;background:#050505;color:#e8e8e8;min-height:100vh}
+
+  /* === NAV === */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(5,5,5,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);padding:12px 20px;display:flex;align-items:center;gap:8px;overflow-x:auto}
+  .nav-logo{font-weight:900;font-size:1rem;color:#fff;letter-spacing:2px;margin-right:16px;white-space:nowrap}
+  .nav-logo span{color:#555}
+  .nav-btn{padding:7px 16px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#555;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+  .nav-btn:hover{border-color:rgba(255,255,255,0.25);color:#ccc}
+  .nav-btn.active{background:#fff;border-color:#fff;color:#000}
   .nav-divider{width:1px;height:24px;background:rgba(255,255,255,0.08);margin:0 4px}
-  .nav-btn.manager-btn{border-color:rgba(244,114,182,0.3);color:#f472b6}
-  .nav-btn.manager-btn.active{background:linear-gradient(135deg,#ec4899,#f43f5e)}
+  .nav-btn.manager-btn{border-color:rgba(255,255,255,0.15);color:#777}
+  .nav-btn.manager-btn.active{background:#fff;color:#000}
+  .nav-btn.emp-btn{border-color:rgba(255,255,255,0.1);color:#666}
+  .nav-btn.emp-btn.active{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fff}
+
+  /* === LAYOUT === */
   .container{max-width:960px;margin:0 auto;padding:28px 20px 60px}
-  .section{display:none}.section.active{display:block}
-  h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-  h2{font-size:1.2rem;font-weight:800;color:#60a5fa;margin:24px 0 14px}
-  h3{font-size:1rem;font-weight:700;color:#a78bfa;margin:18px 0 10px}
-  .subtitle{color:#64748b;font-size:0.88rem;margin-bottom:24px}
-  .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:18px;margin-bottom:14px}
-  .card:hover{border-color:rgba(255,255,255,0.1)}
+  .section{display:none}.section.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* === TYPO === */
+  h1{font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:6px}
+  h2{font-size:1.1rem;font-weight:800;color:#fff;margin:28px 0 14px;letter-spacing:.5px}
+  h3{font-size:0.95rem;font-weight:700;color:#aaa;margin:18px 0 10px}
+  .subtitle{color:#555;font-size:0.88rem;margin-bottom:24px}
+
+  /* === CARDS === */
+  .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:18px;margin-bottom:14px;transition:border-color .2s}
+  .card:hover{border-color:rgba(255,255,255,0.12)}
+
+  /* === TABLE === */
   table{width:100%;border-collapse:collapse;margin:10px 0}
-  th{background:rgba(59,130,246,0.12);color:#60a5fa;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:9px 12px;text-align:left}
-  td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.85rem;color:#cbd5e1}
-  tr:hover td{background:rgba(255,255,255,0.015)}
+  th{background:rgba(255,255,255,0.04);color:#888;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06)}
+  td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.85rem;color:#bbb}
+  tr:hover td{background:rgba(255,255,255,0.02)}
+
+  /* === BADGES === */
   .badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-  .badge-blue{background:rgba(96,165,250,0.15);color:#60a5fa}
-  .badge-green{background:rgba(34,197,94,0.15);color:#22c55e}
-  .badge-orange{background:rgba(249,115,22,0.15);color:#f97316}
-  .badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
-  .badge-purple{background:rgba(168,85,247,0.15);color:#a855f7}
+  .badge-blue{background:rgba(255,255,255,0.08);color:#999}
+  .badge-green{background:rgba(255,255,255,0.06);color:#4ade80}
+  .badge-orange{background:rgba(255,255,255,0.06);color:#fb923c}
+  .badge-red{background:rgba(255,255,255,0.06);color:#f87171}
+  .badge-purple{background:rgba(255,255,255,0.06);color:#c084fc}
+  .badge-white{background:rgba(255,255,255,0.1);color:#fff}
+
+  /* === ALERTS === */
   .alert-card{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;margin-bottom:10px;font-size:0.88rem}
-  .alert-warn{background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2)}
-  .alert-info{background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2)}
-  .alert-urgent{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2)}
+  .alert-warn{background:rgba(255,255,255,0.03);border:1px solid rgba(251,191,36,0.15)}
+  .alert-info{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08)}
+  .alert-urgent{background:rgba(255,255,255,0.03);border:1px solid rgba(248,113,113,0.2)}
   .alert-icon{font-size:1.2rem;margin-top:1px}
+
+  /* === CHECKLIST === */
   .checklist{list-style:none}
   .checklist li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;user-select:none;transition:all .15s}
   .checklist li .ck{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .2s}
-  .checklist li.done{opacity:.35;text-decoration:line-through}
-  .checklist li.done .ck{background:#22c55e;border-color:#22c55e}
-  .checklist li.done .ck::after{content:'â';color:#fff;font-size:11px;font-weight:700}
-  .template-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.7;color:#94a3b8;white-space:pre-line;margin:10px 0}
-  .copy-btn{background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s}
-  .copy-btn:hover{background:rgba(96,165,250,0.2)}
-  .copy-btn.copied{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.25)}
+  .checklist li.done{opacity:.3;text-decoration:line-through}
+  .checklist li.done .ck{background:#fff;border-color:#fff}
+  .checklist li.done .ck::after{content:'â';color:#000;font-size:11px;font-weight:700}
+
+  /* === TEMPLATE BOX === */
+  .template-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.7;color:#888;white-space:pre-line;margin:10px 0}
+  .copy-btn{background:rgba(255,255,255,0.06);color:#999;border:1px solid rgba(255,255,255,0.1);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .copy-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+  .copy-btn.copied{background:rgba(255,255,255,0.15);color:#4ade80;border-color:rgba(74,222,128,0.3)}
+
+  /* === KPI === */
   .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:14px 0}
-  .kpi-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;text-align:center}
-  .kpi-label{font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-  .kpi-value{font-size:1.4rem;font-weight:800}
-  .kpi-target{font-size:0.68rem;color:#64748b;margin-top:3px}
+  .kpi-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;text-align:center;transition:border-color .2s}
+  .kpi-card:hover{border-color:rgba(255,255,255,0.15)}
+  .kpi-label{font-size:0.7rem;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+  .kpi-value{font-size:1.4rem;font-weight:800;color:#fff}
+  .kpi-target{font-size:0.68rem;color:#555;margin-top:3px}
+
+  /* === SHEET FRAME === */
   .sheet-frame{width:100%;height:600px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;margin:14px 0}
   .sheet-frame iframe{width:100%;height:100%;border:none}
-  .relance-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px}
+
+  /* === RELANCES === */
+  .relance-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px;transition:border-color .2s}
+  .relance-item:hover{border-color:rgba(255,255,255,0.12)}
   .relance-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-  .relance-dot.urgent{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,0.4)}
-  .relance-dot.warning{background:#f97316;box-shadow:0 0 8px rgba(249,115,22,0.3)}
-  .relance-dot.ok{background:#22c55e}
+  .relance-dot.urgent{background:#f87171;box-shadow:0 0 10px rgba(248,113,113,0.3)}
+  .relance-dot.warning{background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.2)}
+  .relance-dot.ok{background:#4ade80}
   .relance-text{flex:1;font-size:0.85rem}
-  .relance-time{font-size:0.75rem;color:#64748b;white-space:nowrap}
-  .btn-add{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .relance-time{font-size:0.75rem;color:#555;white-space:nowrap}
+
+  /* === BUTTONS === */
+  .btn-add{background:#fff;color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .2s}
   .btn-add:hover{opacity:0.85}
   .relance-counter{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:99px;font-size:0.7rem;font-weight:800;margin-left:6px;padding:0 6px}
-  .relance-counter.red{background:rgba(239,68,68,0.2);color:#ef4444}
-  .relance-counter.orange{background:rgba(249,115,22,0.2);color:#f97316}
-  .relance-counter.green{background:rgba(34,197,94,0.2);color:#22c55e}
-  .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.1);border-top-color:#60a5fa;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
+  .relance-counter.red{background:rgba(248,113,113,0.15);color:#f87171}
+  .relance-counter.orange{background:rgba(251,191,36,0.15);color:#fbbf24}
+  .relance-counter.green{background:rgba(74,222,128,0.15);color:#4ade80}
+
+  /* === SPINNER === */
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
   @keyframes spin{to{transform:rotate(360deg)}}
-  @media(max-width:640px){.container{padding:16px 12px 40px}h1{font-size:1.4rem}.kpi-grid{grid-template-columns:1fr 1fr}}
+
+  /* === EMPLOYEE TABS === */
+  .emp-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .emp-avatar{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#000;flex-shrink:0}
+  .emp-name{font-size:1.3rem;font-weight:900;color:#fff}
+  .emp-role{font-size:0.78rem;color:#555;margin-top:2px}
+  .emp-accounts{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .emp-accounts span{padding:4px 10px;background:rgba(255,255,255,0.06);color:#999;border-radius:6px;font-size:0.75rem;font-weight:600;border:1px solid rgba(255,255,255,0.06)}
+  .emp-section-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+  .emp-tab{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#555;font-size:0.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .emp-tab:hover{border-color:rgba(255,255,255,0.2);color:#ccc}
+  .emp-tab.active{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#fff}
+  .emp-panel{display:none}.emp-panel.active{display:block;animation:fadeIn .2s ease}
+
+  /* === RESPONSIVE === */
+  @media(max-width:640px){.container{padding:16px 12px 40px}h1{font-size:1.4rem}.kpi-grid{grid-template-columns:1fr 1fr}.emp-header{flex-direction:column;align-items:flex-start;gap:8px}}
 </style>
 </head>
 <body>
 <nav class="nav">
-  <div class="nav-logo">OUTREACH HQ</div>
+  <div class="nav-logo">OUTREACH <span>HQ</span></div>
   <button class="nav-btn active" onclick="show('team',this)">Team</button>
   <button class="nav-btn" onclick="show('routine',this)">Routine</button>
   <button class="nav-btn" onclick="show('messages',this)">Messages</button>
@@ -90,190 +140,318 @@
   <button class="nav-btn" onclick="show('sheet',this)">Sheet</button>
   <button class="nav-btn" onclick="show('rules',this)">Deal</button>
   <div class="nav-divider"></div>
+  <button class="nav-btn emp-btn" onclick="show('emp-pharrell',this)">Pharrell</button>
+  <button class="nav-btn emp-btn" onclick="show('emp-sasha',this)">Sasha</button>
+  <button class="nav-btn emp-btn" onclick="show('emp-keda',this)">Keda</button>
+  <div class="nav-divider"></div>
   <button class="nav-btn manager-btn" onclick="show('manager',this)">Manager</button>
 </nav>
 <div class="container">
 
 <!-- TEAM -->
 <div id="team" class="section active">
-  <h1>L&#8217;EQUIPE</h1>
-  <p class="subtitle">Qui g&#232;re quoi. Simple et clair.</p>
+  <h1>L'EQUIPE</h1>
+  <p class="subtitle">Qui gÃ¨re quoi. Simple et clair.</p>
   <div class="card">
     <table>
-      <tr><th>Personne</th><th>Comptes g&#233;r&#233;s</th><th>Type</th><th>Quota DM/jour</th></tr>
-      <tr><td><strong>Pharrell</strong></td><td>titouanhstl</td><td><span class="badge badge-blue">Manager</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
+      <tr><th>Personne</th><th>Comptes gÃ©rÃ©s</th><th>Type</th><th>Quota DM/jour</th></tr>
+      <tr><td><strong>Pharrell</strong></td><td>titouanhstl</td><td><span class="badge badge-white">Manager</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
       <tr><td><strong>Sasha</strong></td><td>iamcollinsahsley, leacdf</td><td><span class="badge badge-purple">Assistant (fille)</span></td><td><span class="badge badge-green">40+ par compte</span></td></tr>
       <tr><td><strong>Keda (Backup)</strong></td><td>titouansfd, titouanwyr, ellaoriwe</td><td><span class="badge badge-orange">Backup</span></td><td><span class="badge badge-green">40+</span></td></tr>
     </table>
   </div>
   <div class="card">
     <h3>Rappel rapide</h3>
-    <p style="font-size:0.88rem;line-height:1.6;color:#94a3b8">
-      <strong style="color:#60a5fa">Comptes Manager</strong> = comptes perso avec lifestyle, on DM uniquement les filles qui ont <strong>d&#233;j&#224;</strong> OF. Approche pro.<br>
-      <strong style="color:#a855f7">Comptes Assistant</strong> = faux comptes de filles, on DM en mode copine. Filles avec ou sans OF.
+    <p style="font-size:0.88rem;line-height:1.6;color:#777">
+      <strong style="color:#fff">Comptes Manager</strong> = comptes perso avec lifestyle, on DM uniquement les filles qui ont <strong>dÃ©jÃ </strong> OF. Approche pro.<br>
+      <strong style="color:#c084fc">Comptes Assistant</strong> = faux comptes de filles, on DM en mode copine. Filles avec ou sans OF.
     </p>
   </div>
-  <div class="alert-card alert-info"><div class="alert-icon">&#128161;</div><div>Titouan supervise et close les deals. D&#232;s qu&#8217;une mod&#232;le est <strong>int&#233;ress&#233;e</strong>, mentionnez-le dans le groupe WhatsApp avec le @ du compte utilis&#233; et le @ de la mod&#232;le.</div></div>
+  <div class="alert-card alert-info"><div class="alert-icon">ð¡</div><div>Titouan supervise et close les deals. DÃ¨s qu'une modÃ¨le est <strong>intÃ©ressÃ©e</strong>, mentionnez-le dans le groupe WhatsApp avec le @ du compte utilisÃ© et le @ de la modÃ¨le.</div></div>
 </div>
 
 <!-- ROUTINE -->
 <div id="routine" class="section">
   <h1>ROUTINE QUOTIDIENNE</h1>
-  <p class="subtitle">Pas d&#8217;heures impos&#233;es, mais tout doit &#234;tre fait chaque jour (6j/7, dimanche off).</p>
+  <p class="subtitle">Pas d'heures imposÃ©es, mais tout doit Ãªtre fait chaque jour (6j/7, dimanche off).</p>
   <h2>A faire chaque jour</h2>
   <div class="card">
     <ul class="checklist" id="daily-cl">
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Check-in WhatsApp</strong> &#8212; Envoyez un message au groupe quand vous commencez.</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Traiter les r&#233;ponses en priorit&#233;</strong> &#8212; Avant d&#8217;envoyer de nouveaux DM, r&#233;pondez &#224; toutes les filles qui ont r&#233;pondu. Priorit&#233; n&#176;1.</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>40 DM minimum par compte</strong> &#8212; Utilisez le message que Titouan a partag&#233; dans le groupe WhatsApp. Pas d&#8217;impro.</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Conversations actives</strong> &#8212; Continuez les convos en cours. Pas de ghosting de notre c&#244;t&#233;.</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Mettre &#224; jour la Google Sheet</strong> &#8212; Chaque DM envoy&#233; = la ligne est mise &#224; jour.</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Rapport du soir</strong> &#8212; Envoyez votre rapport sur le groupe WhatsApp.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Check-in WhatsApp</strong> â Envoyez un message au groupe quand vous commencez.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Traiter les rÃ©ponses en prioritÃ©</strong> â Avant d'envoyer de nouveaux DM, rÃ©pondez Ã  toutes les filles qui ont rÃ©pondu. PrioritÃ© nÂ°1.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>40 DM minimum par compte</strong> â Utilisez le message que Titouan a partagÃ© dans le groupe WhatsApp. Pas d'impro.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Conversations actives</strong> â Continuez les convos en cours. Pas de ghosting de notre cÃ´tÃ©.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Mettre Ã  jour la Google Sheet</strong> â Chaque DM envoyÃ© = la ligne est mise Ã  jour.</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Rapport du soir</strong> â Envoyez votre rapport sur le groupe WhatsApp.</div></li>
     </ul>
   </div>
   <h2>Template du rapport</h2>
-  <div class="template-box" id="tpl-rapport">RAPPORT &#8212; [Date]
+  <div class="template-box" id="tpl-rapport">RAPPORT â [Date]
 Compte : [nom du compte]
-DM envoy&#233;s : [nombre]
-R&#233;ponses re&#231;ues : [nombre]
-Convos actives continu&#233;es : [nombre]
-Leads int&#233;ress&#233;s : [nombre]
-Probl&#232;mes : [aucun / d&#233;tailler]
-Sheet &#224; jour : &#10003;</div>
+DM envoyÃ©s : [nombre]
+RÃ©ponses reÃ§ues : [nombre]
+Convos actives continuÃ©es : [nombre]
+Leads intÃ©ressÃ©s : [nombre]
+ProblÃ¨mes : [aucun / dÃ©tailler]
+Sheet Ã  jour : â</div>
   <button class="copy-btn" onclick="copyText('tpl-rapport',this)">Copier le template</button>
-  <div class="alert-card alert-warn" style="margin-top:16px"><div class="alert-icon">&#9888;&#65039;</div><div>Si vous ne pouvez pas bosser un jour, <strong>pr&#233;venez &#224; l&#8217;avance</strong> dans le groupe. Pas de message = &#231;a impacte tout le monde.</div></div>
+  <div class="alert-card alert-warn" style="margin-top:16px"><div class="alert-icon">â ï¸</div><div>Si vous ne pouvez pas bosser un jour, <strong>prÃ©venez Ã  l'avance</strong> dans le groupe. Pas de message = Ã§a impacte tout le monde.</div></div>
 </div>
 
 <!-- MESSAGES -->
 <div id="messages" class="section">
   <h1>SEQUENCE DE MESSAGES</h1>
-  <p class="subtitle">Le timing et la m&#233;thode pour chaque type de compte.</p>
+  <p class="subtitle">Le timing et la mÃ©thode pour chaque type de compte.</p>
   <h2>Comptes Assistant (Sasha)</h2>
   <div class="card">
     <table>
       <tr><th>Etape</th><th>Timing</th><th>Action</th></tr>
-      <tr><td><strong>Jour 0</strong></td><td>Imm&#233;diat</td><td>Follow + Like 2-3 posts + DM "copine" (message donn&#233; par Titouan)</td></tr>
-      <tr><td><strong>Jour 2</strong></td><td>+48h</td><td>Relance l&#233;g&#232;re si pas de r&#233;ponse</td></tr>
-      <tr><td><strong>Jour 5</strong></td><td>+72h</td><td>Derni&#232;re relance, mention indirecte OF</td></tr>
-      <tr><td><strong>Jour 8+</strong></td><td>&#8212;</td><td>Pas de r&#233;ponse &#8594; on passe, on archive</td></tr>
+      <tr><td><strong>Jour 0</strong></td><td>ImmÃ©diat</td><td>Follow + Like 2-3 posts + DM "copine" (message donnÃ© par Titouan)</td></tr>
+      <tr><td><strong>Jour 2</strong></td><td>+48h</td><td>Relance lÃ©gÃ¨re si pas de rÃ©ponse</td></tr>
+      <tr><td><strong>Jour 5</strong></td><td>+72h</td><td>DerniÃ¨re relance, mention indirecte OF</td></tr>
+      <tr><td><strong>Jour 8+</strong></td><td>â</td><td>Pas de rÃ©ponse â on passe, on archive</td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#94a3b8;margin-top:10px">3 relances max. Apr&#232;s c&#8217;est mort, on perd pas de temps.</p>
+    <p style="font-size:0.82rem;color:#555;margin-top:10px">3 relances max. AprÃ¨s c'est mort, on perd pas de temps.</p>
   </div>
   <h2>Comptes Manager (Pharrell)</h2>
   <div class="card">
     <table>
       <tr><th>Etape</th><th>Timing</th><th>Action</th></tr>
-      <tr><td><strong>Jour 0</strong></td><td>Imm&#233;diat</td><td>DM direct, approche pro. <strong>Uniquement filles d&#233;j&#224; sur OF.</strong></td></tr>
-      <tr><td colspan="3" style="padding:12px;background:rgba(249,115,22,0.05);border-left:3px solid #f97316">
-        <strong style="color:#f97316">Si la mod&#232;le a r&#233;pondu une fois puis plus rien :</strong><br>
-        <span style="color:#94a3b8">&#8594; Ne PAS relancer vous-m&#234;me. Mentionnez Titouan dans le groupe WhatsApp.</span>
+      <tr><td><strong>Jour 0</strong></td><td>ImmÃ©diat</td><td>DM direct, approche pro. <strong>Uniquement filles dÃ©jÃ  sur OF.</strong></td></tr>
+      <tr><td colspan="3" style="padding:12px;background:rgba(255,255,255,0.02);border-left:3px solid #fbbf24">
+        <strong style="color:#fbbf24">Si la modÃ¨le a rÃ©pondu une fois puis plus rien :</strong><br>
+        <span style="color:#666">â Ne PAS relancer vous-mÃªme. Mentionnez Titouan dans le groupe WhatsApp.</span>
       </td></tr>
     </table>
-    <p style="font-size:0.82rem;color:#94a3b8;margin-top:10px">Pas de relance auto sur les comptes manager. C&#8217;est Titouan qui d&#233;cide.</p>
+    <p style="font-size:0.82rem;color:#555;margin-top:10px">Pas de relance auto sur les comptes manager. C'est Titouan qui dÃ©cide.</p>
   </div>
-  <div class="alert-card alert-info"><div class="alert-icon">&#128204;</div><div><strong>R&#232;gle d&#8217;or :</strong> D&#232;s qu&#8217;une fille montre de l&#8217;int&#233;r&#234;t &#8594; message imm&#233;diat dans le groupe WhatsApp avec le @ du compte utilis&#233; et le @ de la mod&#232;le.</div></div>
+  <div class="alert-card alert-info"><div class="alert-icon">ð</div><div><strong>RÃ¨gle d'or :</strong> DÃ¨s qu'une fille montre de l'intÃ©rÃªt â message immÃ©diat dans le groupe WhatsApp avec le @ du compte utilisÃ© et le @ de la modÃ¨le.</div></div>
 </div>
 
 <!-- RELANCES AUTO -->
 <div id="relances" class="section">
-  <h1>SUIVI &amp; RELANCES</h1>
-  <p class="subtitle">Syst&#232;me automatique &#8212; connect&#233; &#224; la Google Sheet en temps r&#233;el.</p>
-  <div class="card" style="border-left:3px solid #3b82f6;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-    <div><span style="font-weight:700;font-size:0.85rem" id="relance-status"><span class="spinner"></span>Scan de la sheet en cours...</span><span style="color:#475569;font-size:0.78rem;margin-left:8px" id="relance-time"></span></div>
-    <button class="btn-add" onclick="scanRelances()" style="padding:6px 14px;font-size:0.78rem">&#128260; Scanner</button>
+  <h1>SUIVI & RELANCES</h1>
+  <p class="subtitle">SystÃ¨me automatique â connectÃ© Ã  la Google Sheet en temps rÃ©el.</p>
+  <div class="card" style="border-left:3px solid #fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div><span style="font-weight:700;font-size:0.85rem" id="relance-status"><span class="spinner"></span>Scan de la sheet en cours...</span><span style="color:#444;font-size:0.78rem;margin-left:8px" id="relance-time"></span></div>
+    <button class="btn-add" onclick="scanRelances()" style="padding:6px 14px;font-size:0.78rem">ð Scanner</button>
   </div>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">&#128308; Urgentes (+5j)</div><div class="kpi-value" id="rel-urgent" style="color:#ef4444">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">&#128992; A relancer (+2j)</div><div class="kpi-value" id="rel-warning" style="color:#f97316">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">&#128994; R&#233;centes (&lt;2j)</div><div class="kpi-value" id="rel-ok" style="color:#22c55e">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total avec r&#233;ponse</div><div class="kpi-value" id="rel-total" style="color:#60a5fa">&#8212;</div></div>
+    <div class="kpi-card"><div class="kpi-label">ð´ Urgentes (+5j)</div><div class="kpi-value" id="rel-urgent" style="color:#f87171">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">ð  A relancer (+2j)</div><div class="kpi-value" id="rel-warning" style="color:#fbbf24">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">ð¢ RÃ©centes (<2j)</div><div class="kpi-value" id="rel-ok" style="color:#4ade80">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total avec rÃ©ponse</div><div class="kpi-value" id="rel-total" style="color:#fff">â</div></div>
   </div>
-  <h2>&#128680; Relances urgentes</h2>
-  <div id="relance-urgent-list"><div class="card" style="text-align:center;color:#475569;padding:30px"><span class="spinner"></span>Chargement...</div></div>
-  <h2>&#9888;&#65039; A relancer bient&#244;t</h2>
-  <div id="relance-warning-list"><div class="card" style="text-align:center;color:#475569;padding:30px"><span class="spinner"></span>Chargement...</div></div>
-  <h2>&#9989; R&#233;ponses r&#233;centes</h2>
-  <div id="relance-ok-list"><div class="card" style="text-align:center;color:#475569;padding:30px"><span class="spinner"></span>Chargement...</div></div>
-  <div class="alert-card alert-info" style="margin-top:16px"><div class="alert-icon">&#128161;</div><div>Ce syst&#232;me scanne automatiquement la Google Sheet. D&#232;s qu&#8217;une mod&#232;le a r&#233;pondu et que &#231;a fait plus de 2 jours sans action, elle appara&#238;t ici. Plus besoin de tracker manuellement.</div></div>
+  <h2>ð¨ Relances urgentes</h2>
+  <div id="relance-urgent-list"><div class="card" style="text-align:center;color:#444;padding:30px"><span class="spinner"></span>Chargement...</div></div>
+  <h2>â ï¸ A relancer bientÃ´t</h2>
+  <div id="relance-warning-list"><div class="card" style="text-align:center;color:#444;padding:30px"><span class="spinner"></span>Chargement...</div></div>
+  <h2>â RÃ©ponses rÃ©centes</h2>
+  <div id="relance-ok-list"><div class="card" style="text-align:center;color:#444;padding:30px"><span class="spinner"></span>Chargement...</div></div>
+  <div class="alert-card alert-info" style="margin-top:16px"><div class="alert-icon">ð¡</div><div>Ce systÃ¨me scanne automatiquement la Google Sheet. DÃ¨s qu'une modÃ¨le a rÃ©pondu et que Ã§a fait plus de 2 jours sans action, elle apparaÃ®t ici. Plus besoin de tracker manuellement.</div></div>
 </div>
 
 <!-- SHEET -->
 <div id="sheet" class="section">
   <h1>GOOGLE SHEET</h1>
-  <p class="subtitle">La sheet de tracking en direct. Mettez-la &#224; jour en temps r&#233;el.</p>
+  <p class="subtitle">La sheet de tracking en direct. Mettez-la Ã  jour en temps rÃ©el.</p>
   <div class="sheet-frame"><iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe></div>
-  <div class="alert-card alert-info" style="margin-top:12px"><div class="alert-icon">&#128203;</div><div><strong>Comment remplir :</strong> Chaque lead = 1 ligne. Username, URL, message utilis&#233;, statut, date du DM. Mettez &#224; jour le statut &#224; chaque changement.</div></div>
-  <div class="alert-card alert-warn"><div class="alert-icon">&#9888;&#65039;</div><div>La sheet doit &#234;tre &#224; jour <strong>en temps r&#233;el</strong>. C&#8217;est ce qui permet au syst&#232;me de relances auto de fonctionner.</div></div>
+  <div class="alert-card alert-info" style="margin-top:12px"><div class="alert-icon">ð</div><div><strong>Comment remplir :</strong> Chaque lead = 1 ligne. Username, URL, message utilisÃ©, statut, date du DM. Mettez Ã  jour le statut Ã  chaque changement.</div></div>
+  <div class="alert-card alert-warn"><div class="alert-icon">â ï¸</div><div>La sheet doit Ãªtre Ã  jour <strong>en temps rÃ©el</strong>. C'est ce qui permet au systÃ¨me de relances auto de fonctionner.</div></div>
 </div>
 
 <!-- DEAL -->
 <div id="rules" class="section">
   <h1>LE DEAL</h1>
-  <p class="subtitle">Comment &#231;a fonctionne entre nous. Transparent et fair.</p>
+  <p class="subtitle">Comment Ã§a fonctionne entre nous. Transparent et fair.</p>
   <h2>Compensation</h2>
   <div class="card">
     <table>
-      <tr><th>El&#233;ment</th><th>Montant</th><th>D&#233;tails</th></tr>
-      <tr><td><strong>Fixe mensuel</strong></td><td><strong>300$ / mois</strong></td><td>Base pour 3 comptes. Plus de comptes = bonus d&#233;cid&#233; par Titouan.</td></tr>
-      <tr><td><strong>Prime par signature</strong></td><td><strong style="color:#22c55e">400$ par mod&#232;le sign&#233;e</strong></td><td>Si le lead vient de votre outreach. Pas de limite.</td></tr>
-      <tr><td><strong>Bonus volume</strong></td><td><strong style="color:#60a5fa">D&#233;cid&#233; par Titouan</strong></td><td>Si le volume et la qualit&#233; sont au rendez-vous.</td></tr>
-      <tr><td><strong>P&#233;nalit&#233;</strong></td><td><strong style="color:#ef4444">D&#233;duction sur le fixe</strong></td><td>Absence non pr&#233;venue, pas de rapports, sheet pas &#224; jour, quotas ignor&#233;s.</td></tr>
+      <tr><th>ElÃ©ment</th><th>Montant</th><th>DÃ©tails</th></tr>
+      <tr><td><strong>Fixe mensuel</strong></td><td><strong>300$ / mois</strong></td><td>Base pour 3 comptes. Plus de comptes = bonus dÃ©cidÃ© par Titouan.</td></tr>
+      <tr><td><strong>Prime par signature</strong></td><td><strong style="color:#4ade80">400$ par modÃ¨le signÃ©e</strong></td><td>Si le lead vient de votre outreach. Pas de limite.</td></tr>
+      <tr><td><strong>Bonus volume</strong></td><td><strong style="color:#fff">DÃ©cidÃ© par Titouan</strong></td><td>Si le volume et la qualitÃ© sont au rendez-vous.</td></tr>
+      <tr><td><strong>PÃ©nalitÃ©</strong></td><td><strong style="color:#f87171">DÃ©duction sur le fixe</strong></td><td>Absence non prÃ©venue, pas de rapports, sheet pas Ã  jour, quotas ignorÃ©s.</td></tr>
     </table>
   </div>
-  <h2>Ce qu&#8217;on attend</h2>
+  <h2>Ce qu'on attend</h2>
   <div class="card">
-    <ul style="list-style:none;font-size:0.88rem;line-height:2;color:#cbd5e1">
-      <li>&#10003; 40 DM minimum / jour / compte (6j/7)</li>
-      <li>&#10003; Rapport quotidien sur WhatsApp</li>
-      <li>&#10003; Google Sheet &#224; jour en temps r&#233;el</li>
-      <li>&#10003; R&#233;pondre aux mod&#232;les &#8212; ne jamais laisser en vu</li>
-      <li>&#10003; Pr&#233;venir &#224; l&#8217;avance si absence</li>
-      <li>&#10003; Tag Titouan d&#232;s qu&#8217;une mod&#232;le est int&#233;ress&#233;e</li>
-      <li>&#10003; Utiliser uniquement les messages valid&#233;s par Titouan</li>
+    <ul style="list-style:none;font-size:0.88rem;line-height:2;color:#bbb">
+      <li>â 40 DM minimum / jour / compte (6j/7)</li>
+      <li>â Rapport quotidien sur WhatsApp</li>
+      <li>â Google Sheet Ã  jour en temps rÃ©el</li>
+      <li>â RÃ©pondre aux modÃ¨les â ne jamais laisser en vu</li>
+      <li>â PrÃ©venir Ã  l'avance si absence</li>
+      <li>â Tag Titouan dÃ¨s qu'une modÃ¨le est intÃ©ressÃ©e</li>
+      <li>â Utiliser uniquement les messages validÃ©s par Titouan</li>
     </ul>
   </div>
-  <div class="card" style="border-left:3px solid #22c55e"><p style="font-size:0.88rem;color:#94a3b8">On est une &#233;quipe. Le but c&#8217;est de scale ensemble. Si vous faites le taf, les primes et les bonus suivent. &#128170;</p></div>
+  <div class="card" style="border-left:3px solid #4ade80"><p style="font-size:0.88rem;color:#777">On est une Ã©quipe. Le but c'est de scale ensemble. Si vous faites le taf, les primes et les bonus suivent. ðª</p></div>
+</div>
+
+<!-- ====== EMPLOYEE: PHARRELL ====== -->
+<div id="emp-pharrell" class="section">
+  <div class="emp-header">
+    <div class="emp-avatar">P</div>
+    <div><div class="emp-name">Pharrell</div><div class="emp-role">Manager Account â titouanhstl</div></div>
+  </div>
+  <div class="emp-accounts"><span>@titouanhstl</span></div>
+
+  <div class="emp-section-tabs">
+    <button class="emp-tab active" onclick="empTab('pharrell','kpis',this)">ð KPIs</button>
+    <button class="emp-tab" onclick="empTab('pharrell','relances',this)">ð Mes relances</button>
+    <button class="emp-tab" onclick="empTab('pharrell','checklist',this)">â Checklist</button>
+    <button class="emp-tab" onclick="empTab('pharrell','sheet',this)">ð Sheet</button>
+    <button class="emp-tab" onclick="empTab('pharrell','messages',this)">ð¬ Messages</button>
+  </div>
+
+  <div class="emp-panel active" id="pharrell-kpis">
+    <h2>Mes KPIs</h2>
+    <div class="kpi-grid" id="pharrell-kpi-grid"><div style="text-align:center;color:#444;padding:20px;grid-column:1/-1"><span class="spinner"></span> Chargement...</div></div>
+    <h2>DÃ©tail cette semaine</h2>
+    <div class="card" id="pharrell-detail"><div style="text-align:center;color:#444;padding:20px"><span class="spinner"></span></div></div>
+  </div>
+  <div class="emp-panel" id="pharrell-relances">
+    <h2>ð Mes relances</h2>
+    <div id="pharrell-relance-list"><div class="card" style="text-align:center;color:#444;padding:20px"><span class="spinner"></span> Chargement...</div></div>
+  </div>
+  <div class="emp-panel" id="pharrell-checklist">
+    <h2>â Checklist du jour</h2>
+    <div class="card"><ul class="checklist" id="pharrell-cl"></ul></div>
+  </div>
+  <div class="emp-panel" id="pharrell-sheet">
+    <h2>ð Ma Sheet</h2>
+    <div class="sheet-frame"><iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe></div>
+  </div>
+  <div class="emp-panel" id="pharrell-messages">
+    <h2>ð¬ Mes messages</h2>
+    <div class="card"><h3>@titouanhstl â DM Script</h3><div class="template-box" id="tpl-pharrell-1">hey [name] not gonna hit you with some copy paste pitch, i looked at your page and i think you could be making way more with your fanbase, i put together a quick video showing what id change on your setup, wanna see it? just say ok</div><button class="copy-btn" onclick="copyText('tpl-pharrell-1',this)">Copier</button></div>
+    <div class="alert-card alert-info"><div class="alert-icon">ð</div><div><strong>Comptes Manager :</strong> pas de relance auto. Si la modÃ¨le a rÃ©pondu puis plus rien â tag Titouan sur WhatsApp.</div></div>
+  </div>
+</div>
+
+<!-- ====== EMPLOYEE: SASHA ====== -->
+<div id="emp-sasha" class="section">
+  <div class="emp-header">
+    <div class="emp-avatar">S</div>
+    <div><div class="emp-name">Sasha</div><div class="emp-role">Assistant Accounts â iamcollinsahsley, leacdf</div></div>
+  </div>
+  <div class="emp-accounts"><span>@iamcollinsahsley</span><span>@leacdf</span></div>
+
+  <div class="emp-section-tabs">
+    <button class="emp-tab active" onclick="empTab('sasha','kpis',this)">ð KPIs</button>
+    <button class="emp-tab" onclick="empTab('sasha','relances',this)">ð Mes relances</button>
+    <button class="emp-tab" onclick="empTab('sasha','checklist',this)">â Checklist</button>
+    <button class="emp-tab" onclick="empTab('sasha','sheet',this)">ð Sheet</button>
+    <button class="emp-tab" onclick="empTab('sasha','messages',this)">ð¬ Messages</button>
+  </div>
+
+  <div class="emp-panel active" id="sasha-kpis">
+    <h2>Mes KPIs</h2>
+    <div class="kpi-grid" id="sasha-kpi-grid"><div style="text-align:center;color:#444;padding:20px;grid-column:1/-1"><span class="spinner"></span> Chargement...</div></div>
+    <h2>DÃ©tail cette semaine</h2>
+    <div class="card" id="sasha-detail"><div style="text-align:center;color:#444;padding:20px"><span class="spinner"></span></div></div>
+  </div>
+  <div class="emp-panel" id="sasha-relances">
+    <h2>ð Mes relances</h2>
+    <div id="sasha-relance-list"><div class="card" style="text-align:center;color:#444;padding:20px"><span class="spinner"></span> Chargement...</div></div>
+  </div>
+  <div class="emp-panel" id="sasha-checklist">
+    <h2>â Checklist du jour</h2>
+    <div class="card"><ul class="checklist" id="sasha-cl"></ul></div>
+  </div>
+  <div class="emp-panel" id="sasha-sheet">
+    <h2>ð Ma Sheet</h2>
+    <div class="sheet-frame"><iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe></div>
+  </div>
+  <div class="emp-panel" id="sasha-messages">
+    <h2>ð¬ Mes messages</h2>
+    <div class="card"><h3>@iamcollinsashley & @leacdf â Script compte assistante (collab de marque)</h3><div class="template-box" id="tpl-sasha-1">Utiliser le script compte assistante (collab de marque) â fourni par Titouan sur le groupe WhatsApp.</div><button class="copy-btn" onclick="copyText('tpl-sasha-1',this)">Copier</button></div>
+    <div class="alert-card alert-info"><div class="alert-icon">ð</div><div>Le script exact est partagÃ© dans le groupe WhatsApp par Titouan. Utilise uniquement ce message, pas d'impro.</div></div>
+  </div>
+</div>
+
+<!-- ====== EMPLOYEE: KEDA ====== -->
+<div id="emp-keda" class="section">
+  <div class="emp-header">
+    <div class="emp-avatar">K</div>
+    <div><div class="emp-name">Keda</div><div class="emp-role">Backup â titouansfd, titouanwyr, ellaoriwe</div></div>
+  </div>
+  <div class="emp-accounts"><span>@titouansfd</span><span>@titouanwyr</span><span>@ellaoriwe</span></div>
+
+  <div class="emp-section-tabs">
+    <button class="emp-tab active" onclick="empTab('keda','kpis',this)">ð KPIs</button>
+    <button class="emp-tab" onclick="empTab('keda','relances',this)">ð Mes relances</button>
+    <button class="emp-tab" onclick="empTab('keda','checklist',this)">â Checklist</button>
+    <button class="emp-tab" onclick="empTab('keda','sheet',this)">ð Sheet</button>
+    <button class="emp-tab" onclick="empTab('keda','messages',this)">ð¬ Messages</button>
+  </div>
+
+  <div class="emp-panel active" id="keda-kpis">
+    <h2>Mes KPIs</h2>
+    <div class="kpi-grid" id="keda-kpi-grid"><div style="text-align:center;color:#444;padding:20px;grid-column:1/-1"><span class="spinner"></span> Chargement...</div></div>
+    <h2>DÃ©tail cette semaine</h2>
+    <div class="card" id="keda-detail"><div style="text-align:center;color:#444;padding:20px"><span class="spinner"></span></div></div>
+  </div>
+  <div class="emp-panel" id="keda-relances">
+    <h2>ð Mes relances</h2>
+    <div id="keda-relance-list"><div class="card" style="text-align:center;color:#444;padding:20px"><span class="spinner"></span> Chargement...</div></div>
+  </div>
+  <div class="emp-panel" id="keda-checklist">
+    <h2>â Checklist du jour</h2>
+    <div class="card"><ul class="checklist" id="keda-cl"></ul></div>
+  </div>
+  <div class="emp-panel" id="keda-sheet">
+    <h2>ð Ma Sheet</h2>
+    <div class="sheet-frame"><iframe src="https://docs.google.com/spreadsheets/d/1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg/edit?usp=sharing&rm=minimal" loading="lazy"></iframe></div>
+  </div>
+  <div class="emp-panel" id="keda-messages">
+    <h2>ð¬ Mes messages</h2>
+    <div class="card"><h3>@titouansfd â DM Script</h3><div class="template-box" id="tpl-keda-1">hey [name] not gonna hit you with some copy paste pitch, i looked at your page and i think you could be making way more with your fanbase, i put together a quick video showing what id change on your setup, wanna see it? just say ok</div><button class="copy-btn" onclick="copyText('tpl-keda-1',this)">Copier</button></div>
+    <div class="card"><h3>@titouanwyr â DM Script</h3><div class="template-box" id="tpl-keda-2">Hey just wanted to reach out, I noticed your recent posts aren't getting the reach they deserve on IG. Often that comes down to hooks and content structure. Do you script your own videos?</div><button class="copy-btn" onclick="copyText('tpl-keda-2',this)">Copier</button></div>
+    <div class="card"><h3>@ellaoriwe â Script compte assistante (collab de marque)</h3><div class="template-box" id="tpl-keda-3">Utiliser le script compte assistante (collab de marque) â fourni par Titouan sur le groupe WhatsApp.</div><button class="copy-btn" onclick="copyText('tpl-keda-3',this)">Copier</button></div>
+  </div>
 </div>
 
 <!-- MANAGER -->
 <div id="manager" class="section">
-  <h1 style="background:linear-gradient(135deg,#ec4899,#f43f5e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">MANAGER VIEW</h1>
-  <p class="subtitle">Vue r&#233;serv&#233;e &#224; Titouan. Donn&#233;es live depuis la Google Sheet.</p>
-  <div class="card" style="border-left:3px solid #22c55e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-    <div><span style="color:#22c55e;font-weight:700;font-size:0.85rem" id="live-status"><span class="spinner"></span>Chargement...</span><span style="color:#475569;font-size:0.78rem;margin-left:8px" id="live-time"></span></div>
-    <button class="btn-add" onclick="fetchAllSheets()" style="padding:6px 14px;font-size:0.78rem">&#128260; Rafraichir</button>
+  <h1>MANAGER VIEW</h1>
+  <p class="subtitle">Vue rÃ©servÃ©e Ã  Titouan. DonnÃ©es live depuis la Google Sheet.</p>
+  <div class="card" style="border-left:3px solid #4ade80;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div><span style="color:#4ade80;font-weight:700;font-size:0.85rem" id="live-status"><span class="spinner"></span>Chargement...</span><span style="color:#444;font-size:0.78rem;margin-left:8px" id="live-time"></span></div>
+    <button class="btn-add" onclick="fetchAllSheets()" style="padding:6px 14px;font-size:0.78rem">ð Rafraichir</button>
   </div>
   <h2>Cette semaine</h2>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">Pharrell &#8212; DM</div><div class="kpi-value" id="kpi-pharrell-dm">&#8212;</div><div class="kpi-target" id="kpi-pharrell-avg">...</div></div>
-    <div class="kpi-card"><div class="kpi-label">Pharrell &#8212; R&#233;ponses</div><div class="kpi-value" id="kpi-pharrell-rep">&#8212;</div><div class="kpi-target" id="kpi-pharrell-taux">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Sasha &#8212; DM</div><div class="kpi-value" id="kpi-sasha-dm">&#8212;</div><div class="kpi-target" id="kpi-sasha-avg">...</div></div>
-    <div class="kpi-card"><div class="kpi-label">Keda (Backup) &#8212; DM</div><div class="kpi-value" id="kpi-keda-dm">&#8212;</div><div class="kpi-target" id="kpi-keda-avg">...</div></div>
-    <div class="kpi-card"><div class="kpi-label">Keda &#8212; R&#233;ponses</div><div class="kpi-value" id="kpi-keda-rep">&#8212;</div><div class="kpi-target" id="kpi-keda-taux">&#8212;</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pharrell â DM</div><div class="kpi-value" id="kpi-pharrell-dm">â</div><div class="kpi-target" id="kpi-pharrell-avg">...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pharrell â RÃ©ponses</div><div class="kpi-value" id="kpi-pharrell-rep">â</div><div class="kpi-target" id="kpi-pharrell-taux">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Sasha â DM</div><div class="kpi-value" id="kpi-sasha-dm">â</div><div class="kpi-target" id="kpi-sasha-avg">...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda (Backup) â DM</div><div class="kpi-value" id="kpi-keda-dm">â</div><div class="kpi-target" id="kpi-keda-avg">...</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda â RÃ©ponses</div><div class="kpi-value" id="kpi-keda-rep">â</div><div class="kpi-target" id="kpi-keda-taux">â</div></div>
   </div>
-  <h2>D&#233;tail par compte</h2>
-  <div class="card"><table><thead><tr><th>Personne</th><th>Compte</th><th>DM</th><th>R&#233;p.</th><th>Taux</th><th>Moy/j</th><th>Status</th></tr></thead><tbody id="detail-body"><tr><td colspan="7" style="text-align:center;color:#475569;padding:20px"><span class="spinner"></span></td></tr></tbody></table></div>
+  <h2>DÃ©tail par compte</h2>
+  <div class="card"><table><thead><tr><th>Personne</th><th>Compte</th><th>DM</th><th>RÃ©p.</th><th>Taux</th><th>Moy/j</th><th>Status</th></tr></thead><tbody id="detail-body"><tr><td colspan="7" style="text-align:center;color:#444;padding:20px"><span class="spinner"></span></td></tr></tbody></table></div>
   <h2>Jour par jour</h2>
-  <div class="card" id="daily-breakdown"><div style="text-align:center;color:#475569;padding:20px"><span class="spinner"></span></div></div>
+  <div class="card" id="daily-breakdown"><div style="text-align:center;color:#444;padding:20px"><span class="spinner"></span></div></div>
   <h2>Total du mois</h2>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">Pharrell mois</div><div class="kpi-value" id="kpi-pharrell-month">&#8212;</div><div class="kpi-target" id="kpi-pharrell-month-rep">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Sasha mois</div><div class="kpi-value" id="kpi-sasha-month">&#8212;</div><div class="kpi-target" id="kpi-sasha-month-rep">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Keda mois</div><div class="kpi-value" id="kpi-keda-month">&#8212;</div><div class="kpi-target" id="kpi-keda-month-rep">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total equipe</div><div class="kpi-value" id="kpi-total-month">&#8212;</div><div class="kpi-target" id="kpi-total-month-info">&#8212;</div></div>
-    <div class="kpi-card"><div class="kpi-label">Taux global</div><div class="kpi-value" id="kpi-global-taux">&#8212;</div><div class="kpi-target">objectif &gt; 5%</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pharrell mois</div><div class="kpi-value" id="kpi-pharrell-month">â</div><div class="kpi-target" id="kpi-pharrell-month-rep">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Sasha mois</div><div class="kpi-value" id="kpi-sasha-month">â</div><div class="kpi-target" id="kpi-sasha-month-rep">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Keda mois</div><div class="kpi-value" id="kpi-keda-month">â</div><div class="kpi-target" id="kpi-keda-month-rep">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total equipe</div><div class="kpi-value" id="kpi-total-month">â</div><div class="kpi-target" id="kpi-total-month-info">â</div></div>
+    <div class="kpi-card"><div class="kpi-label">Taux global</div><div class="kpi-value" id="kpi-global-taux">â</div><div class="kpi-target">objectif > 5%</div></div>
   </div>
   <h2>Alertes auto</h2>
   <div id="auto-alerts"><div class="alert-card alert-info"><div class="alert-icon"><span class="spinner"></span></div><div>Chargement...</div></div></div>
   <h2>Check hebdo (lundi)</h2>
   <div class="card">
     <ul class="checklist" id="hebdo-cl">
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Stats semaine</strong> &#8212; Total DM, taux, leads</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>V&#233;rifier la sheet</strong> &#8212; Leads +5j sans changement = probl&#232;me</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Qualit&#233; rapports</strong> &#8212; Rapport quotidien + sheet &#224; jour ?</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Ajuster messages</strong> &#8212; Taux &lt; 3% pendant 2 sem = changer template</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>R&#233;cap WhatsApp</strong> &#8212; F&#233;liciter ou recadrer</div></li>
-      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Primes &amp; p&#233;nalit&#233;s</strong> &#8212; Calculer ce qui est d&#251;</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Stats semaine</strong> â Total DM, taux, leads</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>VÃ©rifier la sheet</strong> â Leads +5j sans changement = problÃ¨me</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>QualitÃ© rapports</strong> â Rapport quotidien + sheet Ã  jour ?</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Ajuster messages</strong> â Taux < 3% pendant 2 sem = changer template</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>RÃ©cap WhatsApp</strong> â FÃ©liciter ou recadrer</div></li>
+      <li onclick="toggle(this)"><div class="ck"></div><div><strong>Primes & pÃ©nalitÃ©s</strong> â Calculer ce qui est dÃ»</div></li>
     </ul>
   </div>
   <h2>Sheet en direct</h2>
@@ -282,25 +460,43 @@ Sheet &#224; jour : &#10003;</div>
 </div>
 
 <script>
+// ============================================================================
 // NAV
+// ============================================================================
 function show(id,btn){
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active')});
   document.getElementById(id).classList.add('active');
-  if(btn)btn.closest('.nav-btn').classList.add('active');
+  if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='relances'&&!window._rL){window._rL=1;scanRelances();}
   if(id==='manager'&&!window._mL){window._mL=1;fetchAllSheets();}
+  // Load employee data when clicking their tab
+  if(id.startsWith('emp-')){
+    var empName=id.replace('emp-','');
+    loadEmployeeData(empName);
+  }
 }
 function toggle(li){li.classList.toggle('done')}
 function copyText(id,btn){
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(function(){
-    btn.textContent='Copie !';btn.classList.add('copied');
-    setTimeout(function(){btn.textContent='Copier le template';btn.classList.remove('copied')},2000);
+    btn.textContent='â CopiÃ© !';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent='Copier';btn.classList.remove('copied')},2000);
   });
 }
 
-// SHEET CONFIG
+// Employee sub-tabs
+function empTab(emp,tab,btn){
+  var parent=document.getElementById('emp-'+emp);
+  parent.querySelectorAll('.emp-tab').forEach(function(b){b.classList.remove('active')});
+  parent.querySelectorAll('.emp-panel').forEach(function(p){p.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById(emp+'-'+tab).classList.add('active');
+}
+
+// ============================================================================
+// SHEET CONFIG (ORIGINAL â UNTOUCHED)
+// ============================================================================
 var SID='1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
 var ACCS=[
   {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl (mgmt pharrell)'},
@@ -310,6 +506,12 @@ var ACCS=[
   {person:'Keda',account:'titouanwyr',sheet:'titouanwyr'},
   {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe'}
 ];
+
+var EMP_ACCOUNTS={
+  pharrell:['titouanhstl'],
+  sasha:['iamcollinsahsley','leacdf'],
+  keda:['titouansfd','titouanwyr','ellaoriwe']
+};
 
 function pgviz(t){var m=t.match(/setResponse\((.+)\);?\s*$/s);if(!m)return null;try{return JSON.parse(m[1])}catch(e){return null}}
 function pdate(v){
@@ -348,7 +550,9 @@ function isRep(s){
   return /r[eÃ©]pondu|replied|int[eÃ©]ress|r[eÃ©]ponse|yes|oui|engag/i.test(s);
 }
 
-// === AUTO RELANCE ===
+// ============================================================================
+// AUTO RELANCE (ORIGINAL)
+// ============================================================================
 async function scanRelances(){
   document.getElementById('relance-status').innerHTML='<span class="spinner"></span>Scan de la sheet...';
   var leads=[];
@@ -386,26 +590,131 @@ async function scanRelances(){
   rList('relance-warning-list',warn,'warning');
   rList('relance-ok-list',ok,'ok');
 
+  // Also populate employee-specific relances
+  window._allLeads=leads;
+  populateEmpRelances();
+
   var time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('relance-status').innerHTML=leads.length>0
-    ?'&#128994; '+leads.length+' modeles avec reponse detectees'
-    :'&#128308; Aucune donnee trouvee (la sheet doit etre partagee en Lecture via Lien)';
+    ?'ð¢ '+leads.length+' modeles avec reponse detectees'
+    :'ð´ Aucune donnee trouvee (la sheet doit etre partagee en Lecture via Lien)';
   document.getElementById('relance-time').textContent='Scan : '+time;
 }
 
 function rList(cid,leads,dot){
   var c=document.getElementById(cid);
-  if(!leads.length){c.innerHTML='<div class="card" style="text-align:center;color:#475569;padding:20px">Aucune &#10003;</div>';return;}
+  if(!leads.length){c.innerHTML='<div class="card" style="text-align:center;color:#444;padding:20px">Aucune â</div>';return;}
   c.innerHTML=leads.map(function(l){
-    var lb=l.days>=5?'&#128680; '+l.days+'j !':l.days>=2?'&#9888;&#65039; '+l.days+'j':'&#10003; '+l.days+'j';
-    return '<div class="relance-item"><div class="relance-dot '+dot+'"></div><div class="relance-text"><strong>@'+l.user+'</strong> via <strong>'+l.account+'</strong> ('+l.person+')<br><span style="color:#64748b;font-size:0.78rem">'+l.status+'</span></div><div class="relance-time">'+lb+'</div></div>';
+    var lb=l.days>=5?'ð¨ '+l.days+'j !':l.days>=2?'â ï¸ '+l.days+'j':'â '+l.days+'j';
+    return '<div class="relance-item"><div class="relance-dot '+dot+'"></div><div class="relance-text"><strong>@'+l.user+'</strong> via <strong>'+l.account+'</strong> ('+l.person+')<br><span style="color:#555;font-size:0.78rem">'+l.status+'</span></div><div class="relance-time">'+lb+'</div></div>';
   }).join('');
+}
+
+function populateEmpRelances(){
+  var leads=window._allLeads||[];
+  ['pharrell','sasha','keda'].forEach(function(emp){
+    var accs=EMP_ACCOUNTS[emp];
+    var myLeads=leads.filter(function(l){return accs.indexOf(l.account)>=0});
+    var c=document.getElementById(emp+'-relance-list');
+    if(!c)return;
+    if(!myLeads.length){c.innerHTML='<div class="card" style="text-align:center;color:#444;padding:20px">Aucune relance en attente â</div>';return;}
+    c.innerHTML=myLeads.map(function(l){
+      var dot=l.days>=5?'urgent':l.days>=2?'warning':'ok';
+      var lb=l.days>=5?'ð¨ '+l.days+'j':l.days>=2?'â ï¸ '+l.days+'j':'â '+l.days+'j';
+      return '<div class="relance-item"><div class="relance-dot '+dot+'"></div><div class="relance-text"><strong>@'+l.user+'</strong> via <strong>'+l.account+'</strong><br><span style="color:#555;font-size:0.78rem">'+l.status+'</span></div><div class="relance-time">'+lb+'</div></div>';
+    }).join('');
+  });
 }
 
 setTimeout(function(){scanRelances()},1500);
 setInterval(function(){scanRelances()},300000);
 
-// === MANAGER DATA ===
+// ============================================================================
+// EMPLOYEE CHECKLISTS
+// ============================================================================
+var CL_ITEMS=[
+  'Check-in WhatsApp envoyÃ©',
+  'RÃ©ponses prioritaires traitÃ©es',
+  '40+ DMs envoyÃ©s par compte',
+  'Conversations en cours continuÃ©es',
+  'Google Sheet mis Ã  jour',
+  'Rapport du soir envoyÃ©'
+];
+
+function initEmpChecklists(){
+  ['pharrell','sasha','keda'].forEach(function(emp){
+    var ul=document.getElementById(emp+'-cl');
+    if(!ul)return;
+    ul.innerHTML=CL_ITEMS.map(function(item,i){
+      return '<li onclick="toggle(this)"><div class="ck"></div><div>'+item+'</div></li>';
+    }).join('');
+  });
+}
+initEmpChecklists();
+
+// ============================================================================
+// EMPLOYEE DATA (KPIs + DETAIL)
+// ============================================================================
+var _empDataCache={};
+
+async function loadEmployeeData(emp){
+  var accs=ACCS.filter(function(a){return a.person.toLowerCase()===emp.toLowerCase()|| EMP_ACCOUNTS[emp].indexOf(a.account)>=0});
+  if(!accs.length)return;
+
+  var wr=weekR(),mr=monthR(),res=[];
+  for(var i=0;i<accs.length;i++){
+    var a=accs[i],tab=await fetchTab(a.sheet);
+    if(!tab||!tab.rows)continue;
+    var cm=detectCols(tab.cols),wD=0,wR=0,mD=0,mR=0,dd=[];
+    tab.rows.forEach(function(row){
+      var cells=row.c||[],dc=cells[cm.date],date=dc?pdate(cv(dc)):null;
+      if(!date||isNaN(date.getTime()))return;
+      var rep=cm.status>=0?isRep(ct(cells[cm.status])):false;
+      if(date>=wr.m&&date<=wr.s){wD++;if(rep)wR++;dd.push({date:date,dm:1,rep:rep?1:0})}
+      if(date>=mr.f&&date<=mr.l){mD++;if(rep)mR++}
+    });
+    res.push({account:a.account,wD:wD,wR:wR,mD:mD,mR:mR,dd:dd});
+  }
+
+  var diw=Math.min(7,Math.floor((new Date()-wr.m)/864e5)+1);
+  var tW=res.reduce(function(s,a){return s+a.wD},0);
+  var tR=res.reduce(function(s,a){return s+a.wR},0);
+  var tM=res.reduce(function(s,a){return s+a.mD},0);
+  var tMR=res.reduce(function(s,a){return s+a.mR},0);
+  var avgW=diw>0?Math.round(tW/diw):0;
+  var tauxW=tW>0?((tR/tW)*100).toFixed(1):'0';
+  var avgM=mr.l?Math.round(tM/Math.max(1,Math.floor((new Date()-mr.f)/864e5)+1)):0;
+
+  // KPI grid
+  var grid=document.getElementById(emp+'-kpi-grid');
+  if(grid){
+    grid.innerHTML=
+      '<div class="kpi-card"><div class="kpi-label">DMs semaine</div><div class="kpi-value" style="color:#fff">'+tW+'</div><div class="kpi-target">moy '+avgW+'/j</div></div>'+
+      '<div class="kpi-card"><div class="kpi-label">RÃ©ponses sem.</div><div class="kpi-value" style="color:'+(tR>0?'#4ade80':'#555')+'">'+tR+'</div><div class="kpi-target">taux '+tauxW+'%</div></div>'+
+      '<div class="kpi-card"><div class="kpi-label">DMs mois</div><div class="kpi-value" style="color:#fff">'+tM+'</div><div class="kpi-target">moy '+avgM+'/j</div></div>'+
+      '<div class="kpi-card"><div class="kpi-label">Status</div><div class="kpi-value" style="color:'+(avgW>=40?'#4ade80':avgW>=20?'#fbbf24':'#f87171')+'">'+
+      (avgW>=40?'OK':avgW>=20?'Low':'â ï¸')+'</div><div class="kpi-target">'+(avgW>=40?'On track':'objectif 40+/j')+'</div></div>';
+  }
+
+  // Detail table
+  var det=document.getElementById(emp+'-detail');
+  if(det){
+    var h='<table><thead><tr><th>Compte</th><th>DM sem.</th><th>RÃ©p.</th><th>Taux</th><th>Moy/j</th><th>Status</th></tr></thead><tbody>';
+    res.forEach(function(a){
+      var t=a.wD>0?((a.wR/a.wD)*100).toFixed(1)+'%':'0%';
+      var avg=diw>0?Math.round(a.wD/diw):0;
+      var c=avg>=40?'#4ade80':avg>=20?'#fbbf24':'#f87171';
+      var sb=avg>=40?'<span class="badge badge-green">OK</span>':avg>=20?'<span class="badge badge-orange">Low</span>':'<span class="badge badge-red">Alerte</span>';
+      h+='<tr><td><strong>'+a.account+'</strong></td><td style="color:'+c+';font-weight:700">'+a.wD+'</td><td>'+a.wR+'</td><td>'+t+'</td><td>'+avg+'/j</td><td>'+sb+'</td></tr>';
+    });
+    h+='</tbody></table>';
+    det.innerHTML=h;
+  }
+}
+
+// ============================================================================
+// MANAGER DATA (ORIGINAL â UNTOUCHED LOGIC)
+// ============================================================================
 function weekR(){var n=new Date(),d=n.getDay(),m=new Date(n);m.setDate(n.getDate()-(d===0?6:d-1));m.setHours(0,0,0,0);var s=new Date(m);s.setDate(m.getDate()+6);s.setHours(23,59,59,999);return{m:m,s:s}}
 function monthR(){var n=new Date();return{f:new Date(n.getFullYear(),n.getMonth(),1),l:new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59,999)}}
 
@@ -444,28 +753,28 @@ async function fetchAllSheets(){
   var kM=ke.reduce(function(s,a){return s+a.mD},0),kMR=ke.reduce(function(s,a){return s+a.mR},0);
   var diw=Math.min(7,Math.floor((new Date()-wr.m)/864e5)+1);
   function sk(id,v,c){var e=document.getElementById(id);if(e){e.textContent=v;if(c)e.style.color=c}}
-  sk('kpi-pharrell-dm',pW,pW>=diw*80?'#22c55e':pW>0?'#f97316':'#ef4444');
+  sk('kpi-pharrell-dm',pW,pW>=diw*80?'#4ade80':pW>0?'#fbbf24':'#f87171');
   sk('kpi-pharrell-rep',pR);sk('kpi-pharrell-avg','moy '+(diw>0?Math.round(pW/diw):0)+'/j');
-  var pt=pW>0?((pR/pW)*100).toFixed(1):'0';sk('kpi-pharrell-taux',pt+'%',+pt>=5?'#22c55e':+pt>=3?'#f97316':'#ef4444');
-  sk('kpi-sasha-dm',sW,sW>=diw*40?'#22c55e':sW>0?'#f97316':'#ef4444');
+  var pt=pW>0?((pR/pW)*100).toFixed(1):'0';sk('kpi-pharrell-taux',pt+'%',+pt>=5?'#4ade80':+pt>=3?'#fbbf24':'#f87171');
+  sk('kpi-sasha-dm',sW,sW>=diw*40?'#4ade80':sW>0?'#fbbf24':'#f87171');
   sk('kpi-sasha-avg','moy '+(diw>0?Math.round(sW/diw):0)+'/j');
-  sk('kpi-keda-dm',kW,kW>=diw*80?'#22c55e':kW>0?'#f97316':'#ef4444');
+  sk('kpi-keda-dm',kW,kW>=diw*80?'#4ade80':kW>0?'#fbbf24':'#f87171');
   sk('kpi-keda-rep',kR);sk('kpi-keda-avg','moy '+(diw>0?Math.round(kW/diw):0)+'/j');
-  var kt=kW>0?((kR/kW)*100).toFixed(1):'0';sk('kpi-keda-taux',kt+'%',+kt>=5?'#22c55e':+kt>=3?'#f97316':'#ef4444');
-  sk('kpi-pharrell-month',pM,pM>0?'#60a5fa':'#64748b');sk('kpi-pharrell-month-rep',pMR+' rep');
-  sk('kpi-sasha-month',sM,sM>0?'#a855f7':'#64748b');sk('kpi-sasha-month-rep',sMR+' rep');
-  sk('kpi-keda-month',kM,kM>0?'#f97316':'#64748b');sk('kpi-keda-month-rep',kMR+' rep');
-  var tM=pM+sM+kM;sk('kpi-total-month',tM,tM>=2000?'#22c55e':'#f97316');
+  var kt=kW>0?((kR/kW)*100).toFixed(1):'0';sk('kpi-keda-taux',kt+'%',+kt>=5?'#4ade80':+kt>=3?'#fbbf24':'#f87171');
+  sk('kpi-pharrell-month',pM,pM>0?'#fff':'#555');sk('kpi-pharrell-month-rep',pMR+' rep');
+  sk('kpi-sasha-month',sM,sM>0?'#fff':'#555');sk('kpi-sasha-month-rep',sMR+' rep');
+  sk('kpi-keda-month',kM,kM>0?'#fff':'#555');sk('kpi-keda-month-rep',kMR+' rep');
+  var tM=pM+sM+kM;sk('kpi-total-month',tM,tM>=2000?'#4ade80':'#fbbf24');
   sk('kpi-total-month-info',tM>=2000?'Bonus volume atteint !':(2000-tM)+' DM restants');
   var gT=(pM+sM+kM)>0?(((pMR+sMR+kMR)/(pM+sM+kM))*100).toFixed(1)+'%':'--';
-  sk('kpi-global-taux',gT,parseFloat(gT)>=5?'#22c55e':parseFloat(gT)>=3?'#f97316':'#ef4444');
+  sk('kpi-global-taux',gT,parseFloat(gT)>=5?'#4ade80':parseFloat(gT)>=3?'#fbbf24':'#f87171');
 
   var db=document.getElementById('detail-body');
   db.innerHTML=res.map(function(a){
     var t=a.wD>0?((a.wR/a.wD)*100).toFixed(1)+'%':'0%';
     var tv=a.wD>0?(a.wR/a.wD)*100:0;var avg=diw>0?Math.round(a.wD/diw):0;
-    var dc=avg>=40?'#22c55e':avg>=20?'#f97316':'#ef4444';
-    var tc=tv>=5?'#22c55e':tv>=3?'#f97316':'#ef4444';
+    var dc=avg>=40?'#4ade80':avg>=20?'#fbbf24':'#f87171';
+    var tc=tv>=5?'#4ade80':tv>=3?'#fbbf24':'#f87171';
     var sb=avg>=40?'<span class="badge badge-green">OK</span>':avg>=20?'<span class="badge badge-orange">Low</span>':'<span class="badge badge-red">Alerte</span>';
     return '<tr><td><strong>'+a.person+'</strong></td><td>'+a.account+'</td><td style="color:'+dc+';font-weight:700">'+a.wD+'</td><td>'+a.wR+'</td><td style="color:'+tc+';font-weight:700">'+t+'</td><td>'+avg+'/j</td><td>'+sb+'</td></tr>';
   }).join('');
@@ -475,12 +784,12 @@ async function fetchAllSheets(){
   var dn=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],dm={};
   res.forEach(function(a){a.dd.forEach(function(d){var k=d.date.toISOString().split('T')[0];if(!dm[k])dm[k]={};if(!dm[k][a.account])dm[k][a.account]={dm:0,rep:0};dm[k][a.account].dm+=d.dm;dm[k][a.account].rep+=d.rep})});
   var sD=Object.keys(dm).sort();
-  if(!sD.length){dDiv.innerHTML='<div style="text-align:center;color:#475569;padding:20px">Pas de donnees cette semaine.</div>'}
+  if(!sD.length){dDiv.innerHTML='<div style="text-align:center;color:#444;padding:20px">Pas de donnees cette semaine.</div>'}
   else{
     var aa=res.map(function(a){return a.account});
     var h='<table><thead><tr><th>Jour</th>';aa.forEach(function(a){h+='<th>'+a+'</th>'});h+='<th>Total</th></tr></thead><tbody>';
     sD.forEach(function(day){var d=new Date(day),dt=0;h+='<tr><td><strong>'+dn[d.getDay()]+' '+d.getDate()+'/'+(d.getMonth()+1)+'</strong></td>';
-      aa.forEach(function(ac){var x=dm[day]&&dm[day][ac];if(x){var c=x.dm>=40?'#22c55e':x.dm>0?'#f97316':'#ef4444';h+='<td><span style="color:'+c+';font-weight:700">'+x.dm+'</span> <span style="color:#64748b;font-size:.72rem">('+x.rep+'r)</span></td>';dt+=x.dm}else h+='<td style="color:#333">--</td>'});
+      aa.forEach(function(ac){var x=dm[day]&&dm[day][ac];if(x){var c=x.dm>=40?'#4ade80':x.dm>0?'#fbbf24':'#f87171';h+='<td><span style="color:'+c+';font-weight:700">'+x.dm+'</span> <span style="color:#555;font-size:.72rem">('+x.rep+'r)</span></td>';dt+=x.dm}else h+='<td style="color:#333">--</td>'});
       h+='<td style="font-weight:700">'+dt+'</td></tr>'});
     h+='</tbody></table>';dDiv.innerHTML=h;
   }
@@ -488,16 +797,16 @@ async function fetchAllSheets(){
   // Alerts
   var al=document.getElementById('auto-alerts'),ah='';
   res.forEach(function(a){var avg=diw>0?Math.round(a.wD/diw):0;var tx=a.wD>0?(a.wR/a.wD)*100:0;
-    if(avg<20&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128308;</div><div><strong>'+a.person+' - '+a.account+'</strong> : '+avg+' DM/j. Objectif = 40+</div></div>';
-    else if(avg<40&&diw>=2)ah+='<div class="alert-card alert-warn"><div class="alert-icon">&#128992;</div><div><strong>'+a.person+' - '+a.account+'</strong> : '+avg+' DM/j. Sous objectif.</div></div>';
-    if(tx<3&&a.wD>=50)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128308;</div><div><strong>'+a.person+' - '+a.account+'</strong> : taux '+tx.toFixed(1)+'%. Changer le template.</div></div>';
+    if(avg<20&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">ð´</div><div><strong>'+a.person+' - '+a.account+'</strong> : '+avg+' DM/j. Objectif = 40+</div></div>';
+    else if(avg<40&&diw>=2)ah+='<div class="alert-card alert-warn"><div class="alert-icon">ð </div><div><strong>'+a.person+' - '+a.account+'</strong> : '+avg+' DM/j. Sous objectif.</div></div>';
+    if(tx<3&&a.wD>=50)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">ð´</div><div><strong>'+a.person+' - '+a.account+'</strong> : taux '+tx.toFixed(1)+'%. Changer le template.</div></div>';
   });
-  if(tM>=2000)ah+='<div class="alert-card alert-info"><div class="alert-icon">&#127919;</div><div><strong>2000 DM/mois atteint !</strong> Bonus volume.</div></div>';
-  if(pW===0&&sW===0&&kW===0&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">&#128680;</div><div><strong>Aucun DM cette semaine !</strong></div></div>';
-  if(!ah)ah='<div class="alert-card alert-info"><div class="alert-icon">&#10003;</div><div>RAS. Tout est en ordre.</div></div>';
+  if(tM>=2000)ah+='<div class="alert-card alert-info"><div class="alert-icon">ð¯</div><div><strong>2000 DM/mois atteint !</strong> Bonus volume.</div></div>';
+  if(pW===0&&sW===0&&kW===0&&diw>=2)ah+='<div class="alert-card alert-urgent"><div class="alert-icon">ð¨</div><div><strong>Aucun DM cette semaine !</strong></div></div>';
+  if(!ah)ah='<div class="alert-card alert-info"><div class="alert-icon">â</div><div>RAS. Tout est en ordre.</div></div>';
   al.innerHTML=ah;
   var time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('live-status').innerHTML='&#128994; Donnees chargees ('+res.length+' comptes)';
+  document.getElementById('live-status').innerHTML='ð¢ Donnees chargees ('+res.length+' comptes)';
   document.getElementById('live-time').textContent='MAJ : '+time;
 }
 
@@ -505,3 +814,4 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').cat
 </script>
 </body>
 </html>
+
