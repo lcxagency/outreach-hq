@@ -499,12 +499,12 @@ function empTab(emp,tab,btn){
 // ============================================================================
 var SID='1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
 var ACCS=[
-  {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl',contacts:'titouanhstl_contacts'},
-  {person:'Sasha',account:'iamcollinsahsley',sheet:'iamcollinsahsley',contacts:'iamcollinsahsley_contacts'},
-  {person:'Sasha',account:'leacdf',sheet:'leacdf',contacts:'leacdf_contacts'},
-  {person:'Keda',account:'titouansfd',sheet:'titouansfd',contacts:'titouansfd_contacts'},
-  {person:'Keda',account:'titouanwyr',sheet:'titouanwyr',contacts:'titouanwyr_contacts'},
-  {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe',contacts:'ellaoriwe_contacts'}
+  {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl'},
+  {person:'Sasha',account:'iamcollinsahsley',sheet:'iamcollinsahsley'},
+  {person:'Sasha',account:'leacdf',sheet:'leacdf'},
+  {person:'Keda',account:'titouansfd',sheet:'titouansfd'},
+  {person:'Keda',account:'titouanwyr',sheet:'titouanwyr'},
+  {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe'}
 ];
 
 var EMP_ACCOUNTS={
@@ -579,8 +579,8 @@ async function scanRelances(){
   var leads=[];
   for(var i=0;i<ACCS.length;i++){
     var a=ACCS[i];
-    // Read from contacts tab for follow-up tracking
-    var tab=await fetchTab(a.contacts||a.sheet+'_contacts');
+    // Read from same tab (contacts section is below daily log)
+    var tab=await fetchTab(a.sheet);
     if(!tab||!tab.cols||!tab.rows)continue;
     var cm=detectContactCols(tab.cols);
     tab.rows.forEach(function(row){
