@@ -495,16 +495,16 @@ function empTab(emp,tab,btn){
 }
 
 // ============================================================================
-// SHEET CONFIG (ORIGINAL — UNTOUCHED)
+// SHEET CONFIG (OPTIMIZED — READS DAILY AGGREGATES)
 // ============================================================================
 var SID='1fnVvUNZyYONOVKpvqlAsqrrQGxooKjxWrFQLqDu0Rbg';
 var ACCS=[
-  {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl (mgmt pharrell)'},
-  {person:'Sasha',account:'iamcollinsahsley',sheet:'iamcollinsahsley (mgmt esteban)'},
-  {person:'Sasha',account:'leacdf',sheet:'leacdf (mgmt titouan)'},
-  {person:'Keda',account:'titouansfd',sheet:'titouansfd (mgmt titouan)'},
-  {person:'Keda',account:'titouanwyr',sheet:'titouanwyr'},
-  {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe'}
+  {person:'Pharrell',account:'titouanhstl',sheet:'titouanhstl',contacts:'titouanhstl_contacts'},
+  {person:'Sasha',account:'iamcollinsahsley',sheet:'iamcollinsahsley',contacts:'iamcollinsahsley_contacts'},
+  {person:'Sasha',account:'leacdf',sheet:'leacdf',contacts:'leacdf_contacts'},
+  {person:'Keda',account:'titouansfd',sheet:'titouansfd',contacts:'titouansfd_contacts'},
+  {person:'Keda',account:'titouanwyr',sheet:'titouanwyr',contacts:'titouanwyr_contacts'},
+  {person:'Keda',account:'ellaoriwe',sheet:'ellaoriwe',contacts:'ellaoriwe_contacts'}
 ];
 
 var EMP_ACCOUNTS={
@@ -522,6 +522,7 @@ function pdate(v){
 }
 function cv(c){return c&&c.v!=null?c.v:null}
 function ct(c){return c?(c.f||(c.v!=null?String(c.v):'')):''}
+function cn(c){var v=cv(c);return(typeof v==='number')?v:(v?parseInt(v,10)||0:0)}
 
 async function fetchTab(sheet){
   try{
@@ -531,23 +532,43 @@ async function fetchTab(sheet){
   }catch(e){return null}
 }
 
+// Detect columns in the new daily-aggregate format:
+// Date | DMs Sent | Responses | Response Rate | Message Used | Closings | Follow-ups
 function detectCols(cols){
-  var m={date:-1,user:-1,status:-1};
+  var m={date:0,dms:1,responses:2,rate:3,message:4,closings:5,followups:6};
+  if(!cols)return m;
   cols.forEach(function(c,i){
-    var l=(c.label||'').toLowerCase();
-    if(c.type==='datetime'||c.type==='date'||/timestamp|date|horodateur/.test(l))m.date=i;
-    if(/username|@|pseudo|user|mod[eè]le|insta|ig|nom/.test(l))m.user=i;
-    if(/statu[st]|state|action|r[eé]ponse|response|replied|suivi/.test(l))m.status=i;
+    var l=(c.label||'').toLowerCase().trim();
+    if(c.type==='datetime'||c.type==='date'||/date|horodateur/.test(l))m.date=i;
+    if(/dms?\s*sent|#?\s*messages?|nb\s*dm/i.test(l))m.dms=i;
+    if(/responses?|#?\s*r[eé]ponses?/i.test(l))m.responses=i;
+    if(/rate|taux/i.test(l))m.rate=i;
+    if(/message\s*used|mess\s*utilis/i.test(l))m.message=i;
+    if(/closing/i.test(l))m.closings=i;
+    if(/follow/i.test(l))m.followups=i;
   });
-  if(m.date===-1)m.date=0;
-  if(m.user===-1&&cols.length>=3)m.user=1;
-  if(m.status===-1&&cols.length>=4)m.status=3;
+  return m;
+}
+
+// Detect columns in contact tabs:
+// # | Username | Profile URL | Message Used | Status | Contact Date | Response Date | Notes
+function detectContactCols(cols){
+  var m={num:0,user:1,url:2,message:3,status:4,contactDate:5,responseDate:6,notes:7};
+  if(!cols)return m;
+  cols.forEach(function(c,i){
+    var l=(c.label||'').toLowerCase().trim();
+    if(/username|user|pseudo|insta/i.test(l))m.user=i;
+    if(/url|profile|link/i.test(l))m.url=i;
+    if(/statu[st]|state/i.test(l))m.status=i;
+    if(/response\s*date/i.test(l))m.responseDate=i;
+    if(/contact\s*date/i.test(l))m.contactDate=i;
+  });
   return m;
 }
 
 function isRep(s){
   if(!s)return false;
-  return /r[eé]pondu|replied|int[eé]ress|r[eé]ponse|yes|oui|engag/i.test(s);
+  return /r[eé]pondu|replied|int[eé]ress|r[eé]ponse|yes|oui|engag|contacted/i.test(s);
 }
 
 // ============================================================================
@@ -557,14 +578,18 @@ async function scanRelances(){
   document.getElementById('relance-status').innerHTML='<span class="spinner"></span>Scan de la sheet...';
   var leads=[];
   for(var i=0;i<ACCS.length;i++){
-    var a=ACCS[i],tab=await fetchTab(a.sheet);
+    var a=ACCS[i];
+    // Read from contacts tab for follow-up tracking
+    var tab=await fetchTab(a.contacts||a.sheet+'_contacts');
     if(!tab||!tab.cols||!tab.rows)continue;
-    var cm=detectCols(tab.cols);
+    var cm=detectContactCols(tab.cols);
     tab.rows.forEach(function(row){
       var cells=row.c||[];
-      var dc=cells[cm.date],date=dc?pdate(cv(dc)):null;
-      var user=cm.user>=0?ct(cells[cm.user]):'';
-      var status=cm.status>=0?ct(cells[cm.status]):'';
+      var user=ct(cells[cm.user]);
+      var status=ct(cells[cm.status]);
+      // Use contact date or response date for timing
+      var dateCell=cells[cm.responseDate]||cells[cm.contactDate];
+      var date=dateCell?pdate(cv(dateCell)):null;
       if(!user||!date||isNaN(date.getTime()))return;
       if(!isRep(status))return;
       var days=Math.floor((new Date()-date)/864e5);
@@ -669,9 +694,9 @@ async function loadEmployeeData(emp){
     tab.rows.forEach(function(row){
       var cells=row.c||[],dc=cells[cm.date],date=dc?pdate(cv(dc)):null;
       if(!date||isNaN(date.getTime()))return;
-      var rep=cm.status>=0?isRep(ct(cells[cm.status])):false;
-      if(date>=wr.m&&date<=wr.s){wD++;if(rep)wR++;dd.push({date:date,dm:1,rep:rep?1:0})}
-      if(date>=mr.f&&date<=mr.l){mD++;if(rep)mR++}
+      var dms=cn(cells[cm.dms]),resp=cn(cells[cm.responses]);
+      if(date>=wr.m&&date<=wr.s){wD+=dms;wR+=resp;dd.push({date:date,dm:dms,rep:resp})}
+      if(date>=mr.f&&date<=mr.l){mD+=dms;mR+=resp}
     });
     res.push({account:a.account,wD:wD,wR:wR,mD:mD,mR:mR,dd:dd});
   }
@@ -724,8 +749,8 @@ async function fetchAgg(sheet){
   tab.rows.forEach(function(row){
     var cells=row.c||[],dc=cells[cm.date],date=dc?pdate(cv(dc)):null;
     if(!date||isNaN(date.getTime()))return;
-    var rep=cm.status>=0?isRep(ct(cells[cm.status])):false;
-    rows.push({date:date,dm:1,rep:rep?1:0});
+    var dms=cn(cells[cm.dms]),resp=cn(cells[cm.responses]);
+    rows.push({date:date,dm:dms,rep:resp});
   });
   return rows;
 }
